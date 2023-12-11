@@ -12,14 +12,20 @@
             <span class="logo-text">GroceryGo</span>
             {% if request.user.is_authenticated %}
             <ul class="menu">
-              <li {% if section == "dashboard" %}class="selected"{% endif %}>
-                <a href="{% url "dashboard" %}">My dashboard</a>
+              <li {% if section == "products" %}class="selected"{% endif %}>
+                <a href="{% url "dashboard" %}">All Products</a>
               </li>
-              <li {% if section == "images" %}class="selected"{% endif %}>
-                <a href="#">Images</a>
+              <li {% if section == "grocery" %}class="selected"{% endif %}>
+                <a href="#">Grocery</a>
               </li>
-              <li {% if section == "people" %}class="selected"{% endif %}>
-                <a href="#">People</a>
+              <li {% if section == "SuperMarket" %}class="selected"{% endif %}>
+                <a href="#">Super Market</a>
+              </li>
+              <li {% if section == "myacc" %}class="selected"{% endif %}>
+                <a href="#">My account</a>
+              </li>
+              <li {% if section == "cart" %}class="selected"{% endif %}>
+                <a href="#">Cart</a>
               </li>
             </ul>
           {% endif %}

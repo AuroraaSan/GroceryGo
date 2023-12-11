@@ -48,58 +48,58 @@ ol {
 }
 
 #header {
-    padding:35px 550px;
+    padding:35px 20px;
     font-size:10px;
     background:#1a4830;
     color:#fff;
     border-bottom:4px solid #1cdf78;
     overflow:auto;
     border-radius: 10px;
-    width: 300px;
+    width: 100%;
     margin: 0 auto;
 }
 
 #header .logo-container {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-start; /* Keeps items aligned to the start */
     margin: 0 auto;
-    padding: 0 0; /* Add padding for spacing */
+    padding: 10px 15px; /* Example padding, adjust as needed */
 }
 
 #header .logo-img {
-    transform: translateY(-30px);
-    margin-left: -350px;
-    height: 90px; /* Adjust the height as needed */
+    transform: translateY(0); /* Reset or adjust as needed */
+    margin-left: 0; /* Reset or adjust as needed */
+    height: 90px;
     border-radius: 25px;
+    padding: 30px;
 }
 
 
 #header .logo-text {
-    transform: translateY(35px);
-    margin-left:-115px;
-    color: #f3f7cc;
+    transform: translateY(70px);
+    margin-left:-150px;    color: #f3f7cc;
     font-size: 30px;
-    line-height: 100px;
+    line-height: normal; /* Reset to normal or adjust as needed */
     display: inline-block;
     white-space: nowrap;
 }
 
 
 #header ul.menu {
-    list-style:none;
-    display: inline-block;
-    margin:0;
-    padding:10px;
-    white-space: nowrap;
-    font-size: 20px;
-    margin-left: 190px;
+    display: flex;
+    justify-content: space-around; /* This will space items evenly */
+    align-items: center;
+    padding: 0;
+    list-style: none;
 
 }
 #header ul.menu li {
-    display: inline-block;
-    padding:0px 0px;
-    
+    font-size: 25px;
+    margin: 0 -30px; /* Adjust the spacing on the left and right */
+    max-width: 160px; /* Prevent items from taking too much space */
+    white-space: nowrap; /* Prevent text from wrapping */
+    margin-left: 50px;
 }
 
 #header ul.menu li.selected a, #header ul.menu li.selected a:hover {
@@ -110,22 +110,26 @@ ol {
 
 #header a {
     color:#f3f7cc;
-    margin-left: 200px;
+    margin-left: 100px;
 }
 #header a:hover {
     color:#fff;
 }
 
 #header .user {
+    display: flex;
+    flex-direction: column;
     float:right;
     padding-top:4px;
-    margin-left: 200px;
-    white-space: nowrap;
+    margin-left: 120px;
     font-size: 20px;
+    padding-left: 25px;
 }
+
 
 #content {
     padding:0px 100px;
+    display: block;
 }
 
 /* forms */
