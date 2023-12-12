@@ -128,13 +128,22 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # redirect the user after login
 LOGIN_REDIRECT_URL = "dashboard"
+LOGOUT_REDIRECT_URL = "login"
+
 # redirect the user url
 LOGIN_URL = "login"
 # url to redirect the user to logout
 LOGOUT_URL = "logout"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 CART_SESSION_ID = 'cart'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'djangooservice@gmail.com'
+EMAIL_HOST_PASSWORD = 'ehwx wtil tmot mzgj'
