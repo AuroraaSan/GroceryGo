@@ -57,7 +57,7 @@ ROOT_URLCONF = "data.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -138,7 +138,8 @@ LOGOUT_URL = "logout"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 CART_SESSION_ID = 'cart'
-
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -146,7 +147,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'djangooservice@gmail.com'
 EMAIL_HOST_PASSWORD = 'ehwx wtil tmot mzgj'
-
-
-# Whether to send SMTP 'Date' header in the local time zone or in UTC.
-#EMAIL_USE_LOCALTIME = False

@@ -41,6 +41,9 @@
     </div>
     <div id="content">
         {% block content %}
+        {% if section == 'home' %}
+          <h1>Welcome to GroceryGo</h1>
+        {% endif %}
         {% endblock %}
     </div>
 </body>
