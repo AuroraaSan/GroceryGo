@@ -128,6 +128,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # redirect the user after login
 LOGIN_REDIRECT_URL = "dashboard"
+LOGOUT_REDIRECT_URL = "login"
+
 # redirect the user url
 LOGIN_URL = "login"
 # url to redirect the user to logout
@@ -143,7 +145,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'djangooservice@gmail.com'
-EMAIL_HOST_PASSWORD = '   '
+EMAIL_HOST_PASSWORD = 'ehwx wtil tmot mzgj'
 
 
 # Whether to send SMTP 'Date' header in the local time zone or in UTC.
