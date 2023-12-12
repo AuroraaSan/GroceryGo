@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("account/", include("account.urls")),
     path("cart/", include("cart.urls", namespace="cart")),
+    #path("shop/", include("shop.urls", namespace="shop")),
 ]
 
 # serve media files with the Django development server
