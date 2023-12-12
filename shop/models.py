@@ -313,6 +313,7 @@ class Product(models.Model):
     expiry_date = models.DateTimeField(null=False, blank=False)
     purchased_gen = models.IntegerField(default=0)
     purchased_24 = models.IntegerField(default=0)
+    # p_image = models.ImageField(upload_to='products/%slug/', blank=True)
     company_id = models.ForeignKey(Company, on_delete=models.SET_DEFAULT, null=True, default=1)
     cat_id = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     
