@@ -12,11 +12,11 @@ def product_list(request, category_name=None):
     if category_name:
         category = get_object_or_404(Category, category_name=category_name)
         products = products.filter(cat_id=category.cat_id)
-    return render(request,
-                  'shop/product/list.html',
-                  {'category': category,
-                   'categories': categories,
-                   'products': products})
+    return render(
+        request,
+        "shop/product/list.html",
+        {"category": category, "categories": categories, "products": products},
+    )
 
 
 def product_detail(request, id, slug):
