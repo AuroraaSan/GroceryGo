@@ -128,7 +128,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # redirect the user after login
-LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "shop:product_list"
 LOGOUT_REDIRECT_URL = "login"
 
 # redirect the user url

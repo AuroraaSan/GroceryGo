@@ -6,17 +6,16 @@
     <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body>
-  hahahahahahaa
     <div id="header">
         <div class="logo-container">
             <img src="{% static 'logoo.png' %}" alt="Logo Image" class="logo-img">
             <span class="logo-text">GroceryGo</span>
             {% if request.user.is_authenticated %}
             <ul class="menu">
-              <li {% if section == "products" %}class="selected"{% endif %}>
-                <a href="{% url "dashboard" %}">All Products</a>
+              <li {% if section == "shop" %}class="selected"{% endif %}>
+                <a href="{% url "shop:product_list" %}">Shop</a>
               </li>
-              <li {% if section == "grocery" %}class="selected"{% endif %}>
+              <li {% if section == "Products" %}class="selected"{% endif %}>
                 <a href="#">Grocery</a>
               </li>
               <li {% if section == "SuperMarket" %}class="selected"{% endif %}>
