@@ -4,8 +4,8 @@ from .models import Product, Category, Company
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['p_id', 'product_name', 'price', 'stock', 'discount', 'cat_id_id', 'company_id_id']
-    raw_id_fields = ['cat_id', 'company_id']
+    list_display = ['p_id', 'product_name', 'price', 'stock', 'discount', 'cat_id', 'company_id']
+    raw_id_fields = ['cat', 'company']
     list_filter = ['price', 'purchased_gen', 'purchased_24', 'cat_id', 'company_id']
 
 @admin.register(Category)

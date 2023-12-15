@@ -1,7 +1,7 @@
 @import url(//fonts.googleapis.com/css?family=Roboto);
 
 body {
-    margin:0px;;
+    margin:0px;
     padding:0px;
     font-family:'Roboto', sans-serif;
 }
@@ -9,6 +9,7 @@ body {
 .p {
     line-height: 3;
     text-align: center;
+    color: #00cffa;
 }
 
 .p2 {
@@ -34,7 +35,8 @@ h1 {
     text-align: center;
     font-size: 70px;
     line-height: 100px;
-    color:#0a451b;
+    color:#00cffa;
+    /* 0a451b */
     margin-left: 30px;
 }
 
@@ -330,4 +332,11 @@ img.user-detail {
 .action .date {
     font-style:italic;
     color:#ccc;
+}
+
+.price
+{
+    color: #de9404;
+    font-style: oblique;
+    font-size: 30px;
 }

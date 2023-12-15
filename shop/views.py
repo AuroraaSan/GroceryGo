@@ -3,6 +3,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from cart.forms import CartAddProductForm
 from .models import Product, Category, Company
+from django.db.models import Q
 
 
 def product_list(request, category_name=None):
@@ -11,7 +12,7 @@ def product_list(request, category_name=None):
     products = Product.objects.all()
     if category_name:
         category = get_object_or_404(Category, category_name=category_name)
-        products = products.filter(cat_id=category.cat_id)
+        products = products.filter(Q(cat=category) | Q(cat__parent_cat=category))
     return render(
         request,
         "shop/product/list.html",

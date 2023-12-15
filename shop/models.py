@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
-
+import os
 
 
 # Create your models here.
@@ -288,7 +288,7 @@ class Company(models.Model):
     speciality = models.ManyToManyField(Category, blank=True)
 
     def __str__(self):
-        return f"Name: {self.company_name}, Description: {self.description}, Speciality: {self.speciality}"
+        return self.company_name
 
     class Meta:
         ordering = ['company_name']
@@ -297,11 +297,12 @@ class Company(models.Model):
         ]
         verbose_name = 'company'
         verbose_name_plural = 'companies'
+
     
 class Product(models.Model):
     p_id = models.BigAutoField(primary_key=True)
     product_name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, null=True)
+    slug = models.SlugField(max_length=200, null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.FloatField()
     stock = models.IntegerField(default=0)
@@ -313,9 +314,9 @@ class Product(models.Model):
     expiry_date = models.DateTimeField(null=False, blank=False)
     purchased_gen = models.IntegerField(default=0)
     purchased_24 = models.IntegerField(default=0)
-    # p_image = models.ImageField(upload_to='products/%slug/', blank=True)
-    company_id = models.ForeignKey(Company, on_delete=models.SET_DEFAULT, null=True, default=1)
-    cat_id = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    p_image = models.ImageField(upload_to='products/', blank=True)
+    company= models.ForeignKey(Company, on_delete=models.SET_DEFAULT, null=True, default=1)
+    cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     
     class Meta:
         ordering = ['product_name']
@@ -330,6 +331,18 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.product_name)
+
+        if self.p_image and not hasattr(self.p_image, 'original_name'):
+            try:
+                file_name, ext = os.path.splitext(self.p_image.name)
+                new_name = f"{slugify(self.product_name)}{ext}"
+                self.p_image.name = new_name
+                setattr(self.p_image, 'original_name', file_name)
+            except Exception as e:
+                # If there's an error, revert to the original file name
+                self.p_image.name = file_name
+                setattr(self.p_image, 'original_name', file_name)
+
         super().save(*args, **kwargs)
 
     def __str__(self):

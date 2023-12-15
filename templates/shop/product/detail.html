@@ -2,25 +2,24 @@
 {% load static %}
 
 {% block title %}
-  {{ product.product_name }}
+  {{product.product_name }}
 {% endblock %}
+
 {% block content %}
-  <div class="product-detail">
-    <img src="{% if product.image %}{{ product.image.url }}{% else %}
-    {% static "img/no_image.png" %}{% endif %}">
-    <h1>{{ product.product_name }}</h1>
-    <h2>
-      <a href="{{ product.category.get_absolute_url }}">
-        {{ product.category }}
-      </a>
-    </h2>
-    <p class="price">${{ product.price }}</p>
-    <form action="{% url 'cart:cart_add' product.p_id %}" method="post">
-      {{ cart_product_form }}
-      {% csrf_token %}
-      <input type="submit" value="Add to cart">
-    </form>
-    <h2 style="text-align: left;">Description:</h2>
-    {{ product.description|linebreaks }}
-  </div>
+<div class="product-detail">
+  <img class='image-detail' src="{% if product.p_image %}{{product.p_image.url}}{% else %} {% static 'img/no_image.png' %}{% endif %}">
+  <h1>{{ product.product_name }}</h1>
+  <h2>
+    <a href="{{ product.category.get_absolute_url }}">
+      {{ product.category }}
+    </a>
+  </h2>
+  <p class="price">EGP {{ product.price }}</p>
+  <form action="{% url 'cart:cart_add' product.p_id %}" method="post">
+    {{ cart_product_form }} {% csrf_token %}
+    <input type="submit" value="Add to cart" />
+  </form>
+  <h2 style="text-align: left">Description:</h2>
+  <p>{{ product.description | linebreaks }}</p>
+</div>
 {% endblock %}

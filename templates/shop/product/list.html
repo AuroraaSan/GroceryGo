@@ -24,11 +24,11 @@
     {% for product in products %}
       <div class="item">
         <a href="{{ product.get_absolute_url }}">
-          <img src="{% if product.p_image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
+          <img class="image-list" src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
         </a>
-        <a href="{{ product.get_absolute_url }}">{{ product.product_name }}</a>
+        <a class="item" href="{{ product.get_absolute_url }}">{{ product.product_name }}</a>
         <br>
-        ${{ product.price }}
+        EGP {{ product.price }}
       </div>
     {% endfor %}
   </div>
