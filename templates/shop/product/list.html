@@ -17,10 +17,20 @@
           <a href="{{ c.get_absolute_url }}">{{ c.category_name }}</a>
         </li>
       {% endfor %}
+
+      <div id="sidebar">
+        <h3>Filter by Price</h3>
+        <form method="get" action="{% url 'shop:product_list' %}">
+          {{ form.as_p }}
+          <input type="submit" value="Apply">
+        </form>
+      </div>
+
+  </div>
     </ul>
   </div>
   <div id="main" class="product-list">
-    <h1>{% if category %}{{ category.category_name }}{% else %}What's New ??{% endif %}</h1>
+    <h1>{% if category %}{{ category.category_name }}{% else %}All Products{% endif %}</h1>
     {% for product in products %}
       <div class="item">
         <a href="{{ product.get_absolute_url }}">
