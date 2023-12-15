@@ -48,23 +48,21 @@ ol {
 }
 
 #header {
-    padding:35px 20px;
-    font-size:10px;
+    font-size:7px;
     background:#1a4830;
     color:#fff;
     border-bottom:4px solid #1cdf78;
-    overflow:auto;
     border-radius: 10px;
     width: 100%;
-    margin: 0 auto;
+    margin: 20 auto;
 }
 
 #header .logo-container {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Keeps items aligned to the start */
+    justify-content: flex-start; 
     margin: 0 auto;
-    padding: 10px 15px; /* Example padding, adjust as needed */
+    padding: 5px 10px; /* Example padding, adjust as needed */
 }
 
 #header .logo-img {
@@ -77,7 +75,6 @@ ol {
 
 
 #header .logo-text {
-    transform: translateY(70px);
     margin-left:-150px;    color: #f3f7cc;
     font-size: 30px;
     line-height: normal; /* Reset to normal or adjust as needed */
@@ -88,16 +85,14 @@ ol {
 
 #header ul.menu {
     display: flex;
-    justify-content: space-around; /* This will space items evenly */
     align-items: center;
-    padding: 0;
     list-style: none;
 
 }
 #header ul.menu li {
     font-size: 25px;
-    margin: 0 -30px; /* Adjust the spacing on the left and right */
-    max-width: 160px; /* Prevent items from taking too much space */
+    margin: 0px 0px;
+    max-width: 150px; /* Prevent items from taking too much space */
     white-space: nowrap; /* Prevent text from wrapping */
     margin-left: 50px;
 }
@@ -117,15 +112,24 @@ ol {
     color:#fff;
 }
 
-#header .user {
+
+#header .user-info {
     display: flex;
     flex-direction: column;
-    float:right;
-    padding-top:4px;
-    margin-left: 120px;
+    float: right;
     font-size: 20px;
-    padding-left: 25px;
+    margin-left: 120px;
+    /*padding-top: 4px;*/
 }
+
+#header .hello-message {
+    margin-left: 50px; /* Adjust the margin-right value as needed */
+}
+
+#header .logout-button {
+    margin-bottom: 25px; /* Adjust the margin-top value as needed */
+}
+
 
 
 #content {
