@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "shop.apps.ShopConfig",
     'orders.apps.OrdersConfig',
     "phonenumber_field",
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "cart.context_processors.cart",
+                
             ],
         },
     },
@@ -85,6 +87,7 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
 
 
 # Password validation
@@ -122,6 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+#STATIC_ROOT = "D:/Semester7/Data Engineering/Project/GroceryGo/static_collected"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
