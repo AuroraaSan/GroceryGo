@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "cart.apps.CartConfig",
     "shop.apps.ShopConfig",
     'orders.apps.OrdersConfig',
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'djangooservice@gmail.com'
 EMAIL_HOST_PASSWORD = 'ehwx wtil tmot mzgj'
+#AUTH_USER_MODEL = 'account.Profile'
