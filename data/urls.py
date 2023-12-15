@@ -31,7 +31,6 @@ urlpatterns = [
     path('orders/', include('orders.urls', namespace='orders')),
     path("shop/", include("shop.urls", namespace='shop')),
     path("cart/", include("cart.urls", namespace="cart")),
-
 ]
 
 # serve media files with the Django development server

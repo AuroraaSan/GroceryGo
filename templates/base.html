@@ -24,7 +24,7 @@
                 <a href="{% url "account_details" %}">My Account</a>
               </li>
               <li {% if section == "cart" %}class="selected"{% endif %}>
-                <a href="#">My cart</a>
+                <a href="{% url "cart:cart_detail" %}">My cart</a>
               </li>
             </ul>
           {% endif %}
