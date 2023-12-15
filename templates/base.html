@@ -8,34 +8,37 @@
 <body>
     <div id="header">
         <div class="logo-container">
+          <a href="{% url "shop:product_list" %}" class="logo-link">
             <img src="{% static 'logoo.png' %}" alt="Logo Image" class="logo-img">
             <span class="logo-text">GroceryGo</span>
+          </a>
             {% if request.user.is_authenticated %}
             <ul class="menu">
-              <li {% if section == "shop" %}class="selected"{% endif %}>
-                <a href="{% url "shop:product_list" %}">Shop</a>
-              </li>
               <li {% if section == "Products" %}class="selected"{% endif %}>
-                <a href="#">Grocery</a>
+                <a href="#">Products</a>
               </li>
               <li {% if section == "SuperMarket" %}class="selected"{% endif %}>
                 <a href="#">Super Market</a>
               </li>
               <li {% if section == "myacc" %}class="selected"{% endif %}>
-                <a href="#">My account</a>
+                <a href="{% url "account_details" %}">My Account</a>
               </li>
               <li {% if section == "cart" %}class="selected"{% endif %}>
-                <a href="#">Cart</a>
+                <a href="#">My cart</a>
               </li>
             </ul>
           {% endif %}
           <span class="user">
             {% if request.user.is_authenticated %}
-              Hello {{ request.user.first_name|default:request.user.username }},
-              <a href="{% url "logout" %}">Logout</a>
+            Hello {{ request.user.first_name|default:request.user.username }},
+            <a href="{% url "logout" %}">Logout</a>
+        {% else %}
+            {% if request.resolver_match.url_name == "register" %}
+                <a href="{% url "login" %}">Login</a>
             {% else %}
-              <a href="{% url "login" %}">Log-in</a>
+                <a href="{% url "register" %}">Register</a>
             {% endif %}
+        {% endif %}        
           </span>
         </div>
     </div>
