@@ -7,7 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
     phone_number = PhoneNumberField(blank=True)
-    address = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, default='Default Address')
 
 
     def __str__(self):

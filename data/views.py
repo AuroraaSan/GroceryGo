@@ -11,3 +11,4 @@ def account_details(request):
         # 'account_detail': account_detail,  # Replace with your actual context variables
     }
     return render(request, 'account/account_details.html', context)
+
