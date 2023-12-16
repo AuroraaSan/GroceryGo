@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 #import weasyprint
 from django.contrib.admin.views.decorators import staff_member_required
-
+from account.models import Profile
 
 
 
@@ -19,11 +19,21 @@ def order_create(request):
         # Redirect the user to the cart view or display an error message
         return redirect("cart:cart_detail")
     
+    user_profile, created = Profile.objects.get_or_create(user=request.user)
+    user_address = user_profile.address if not created else ""
+    user_first_name = request.user.first_name
+    user_last_name = request.user.last_name
+    user_email = request.user.email
+
 
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
+            order.first_name = user_first_name
+            order.last_name = user_last_name
+            order.email = user_email
+            order.save()
             for item in cart:
                 OrderItem.objects.create(
                     order=order,
@@ -36,7 +46,7 @@ def order_create(request):
 
             return redirect("orders:order_created", order_id=order.id)
     else:
-        form = OrderCreateForm()
+        form = OrderCreateForm(initial={'address': user_address, 'first_name': user_first_name, 'last_name': user_last_name, 'email': user_email})
 
     return render(request, "orders/order/create.html", {"cart": cart, "form": form})
 
