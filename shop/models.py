@@ -296,6 +296,8 @@ class Company(models.Model):
         ]
         verbose_name = 'company'
         verbose_name_plural = 'companies'
+    
+    
 
     
 class Product(models.Model):
