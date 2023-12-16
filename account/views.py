@@ -49,3 +49,22 @@ def register(request):
     return render(request,
                   'account/register.html',
                   {'user_form': user_form})
+
+@login_required
+def account_view(request):
+    user = request.user
+    try:
+        profile = Profile.objects.get(user=user)
+        phone_number = profile.phone_number
+        address = profile.address
+    except Profile.DoesNotExist:
+        phone_number = None
+        address = None
+
+    context = {
+        'user': user,
+        'phone_number': phone_number,
+        'address': address,
+    }
+
+    return render(request, 'account/account_details.html', context)

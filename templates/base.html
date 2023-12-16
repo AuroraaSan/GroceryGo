@@ -14,14 +14,10 @@
           </a>
             {% if request.user.is_authenticated %}
             <ul class="menu">
-              <li {% if section == "Products" %}class="selected"{% endif %}>
-                <a href="#">Products</a>
-              </li>
-              <li {% if section == "SuperMarket" %}class="selected"{% endif %}>
-                <a href="#">Super Market</a>
-              </li>
+              <li>
+            </li>
               <li {% if section == "myacc" %}class="selected"{% endif %}>
-                <a href="{% url "account_details" %}">My Account</a>
+                <a href="{% url "account" %}">My Account</a>
               </li>
               <li {% if section == "cart" %}class="selected"{% endif %}>
                 <a href="{% url "cart:cart_detail" %}">My cart</a>
