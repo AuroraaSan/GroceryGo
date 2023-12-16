@@ -346,3 +346,9 @@ img.user-detail {
     font-size: 30px;
     -webkit-text-stroke: 1px green;
 }
+
+.cart-item-img
+{
+    width: 220px;
+    height: 220px;
+}
