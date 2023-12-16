@@ -32,7 +32,6 @@ class Company(models.Model):
     description = models.TextField(blank=True)
     contact_num = models.CharField(max_length=15, null=True)
     email = models.EmailField(blank=True, null=True)
-    # nationality to be choices instead of charfield
     NATIONALITY_CHOICES = [
     ('AFG', 'Afghanistan'),
     ('ALB', 'Albania'),

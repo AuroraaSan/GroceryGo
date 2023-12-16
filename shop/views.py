@@ -25,6 +25,7 @@ def product_list(request, category_name=None):
 
         if price_min is None:
             price_min = 0
+            
         if price_max is None:
             price_max = products.aggregate(Max('price'))['price__max']
 
