@@ -3,25 +3,38 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from cart.forms import CartAddProductForm
 from .models import Product, Category, Company
-from django.db.models import Q, Max
-from .forms import ProductFilterForm
+from django.db.models import Q, Max, Count, F, Case, When, Sum
+from .forms import ProductFilterForm, ProductSearchForm
+from django.db import models  # Import the models module
 
 
 def product_list(request, category_name=None):
     category = None
     categories = Category.objects.all()
-
-    form = ProductFilterForm(request.GET)
     products = Product.objects.all()
+    
+    filter_form = ProductFilterForm(request.GET)
+    search_form = ProductSearchForm(request.GET)
+    
     if category_name:
         category = get_object_or_404(Category, category_name=category_name)
         products = products.filter(Q(cat=category) | Q(cat__parent_cat=category))
 
-    if form.is_valid():
-        price_min=form.cleaned_data.get('price_min')
-        price_max=form.cleaned_data.get('price_max')
-        company=form.cleaned_data.get('company')
-        nationality=form.cleaned_data.get('nationality')
+    if search_form.is_valid():
+        search_query = search_form.cleaned_data.get('search_query')
+        search_category = search_form.cleaned_data.get('search_category')
+
+        if search_category == '1':
+            company_search_ids = list(Company.objects.filter(company_name__icontains=search_query).values_list('company_id', flat=True))
+            products = products.filter(company_id__in=company_search_ids)
+        elif search_category == '2':
+            products = products.filter(product_name__icontains=search_query)
+
+    if filter_form.is_valid():
+        price_min=filter_form.cleaned_data.get('price_min')
+        price_max=filter_form.cleaned_data.get('price_max')
+        company=filter_form.cleaned_data.get('company')
+        nationality=filter_form.cleaned_data.get('nationality')
 
         if price_min is None:
             price_min = 0
@@ -39,11 +52,15 @@ def product_list(request, category_name=None):
             company_ids = list(Company.objects.filter(nationality=nationality).values_list('company_id', flat=True))
             products = products.filter(company_id__in=company_ids)
 
+        # categories_with_count = Category.objects.annotate(num_products=Count('product'))
+        # print(categories_with_count.values())
+            
+        categories_numbers = products
+
     return render(
         request,
         "shop/product/list.html",
-        {"category": category, "categories": categories, "products": products, "form": form},
-    )
+        {"category": category, "categories": categories, "products": products, "filter_form": filter_form, 'search_form': search_form,})
 
 
 def product_detail(request, id, slug):

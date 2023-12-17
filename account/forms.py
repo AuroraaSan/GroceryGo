@@ -4,16 +4,16 @@ from .models import Profile
 from phonenumber_field.formfields import PhoneNumberField
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'First name'}))
 #user model
 class UserRegistrationForm(forms.ModelForm):
-    address = forms.CharField(max_length=255)
-    phone_number = PhoneNumberField()
+    address = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Email'}))
+    phone_number = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Phone number'}))
     password = forms.CharField(label='Password',
-                               widget=forms.PasswordInput)
+                               widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}))
     password2 = forms.CharField(label='Repeat password',
-                                widget=forms.PasswordInput)
+                                widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Repeat Password'}))
 
 
 
