@@ -9,10 +9,20 @@ Account Details
 <div class="account-details">
     <h1>Account Details</h1>
     <div>
+        <p><strong>First name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last name:</strong> {{ user.last_name }}</p>
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Phone Number:</strong> {{ phone_number }}</p>
-        <p><strong>Address:</strong> {{ address }}</p>
+        <p>
+                <strong>Default Address:</strong> {{ address }}
+                <!-- Hyperlink to Add Address Page -->
+                <a href="{% url 'add_address' %}" style="margin-left: 4px; font-weight: bold; font-size: small;">Add another Address</a>
+            </p>
+        <a href="{% url 'profile_update' %}">
+            <button>Edit Profile</button>
+        </a>
+    
     </div>
 </div>
 {% endblock %}
