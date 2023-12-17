@@ -139,9 +139,7 @@ ol {
 
 /* forms */
 form {
-    overflow:auto;
     text-align: center;
-    margin-left: 390px;
 }
 
 form p {

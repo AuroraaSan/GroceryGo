@@ -6,40 +6,44 @@
 {% endblock %}
 
 {% block content %}
-  <div id="sidebar">
-    <h3>Products</h3>
-    <ul>
-      <li {% if not category %}class="selected"{% endif %}>
-        <a href="{% url "shop:product_list" %}">All</a>
-      </li>
-      {% for c in categories %}
-        <li {% if category and category.category_name == c.category_name %}class="selected"{% endif %}>
-          <a href="{{ c.get_absolute_url }}">{{ c.category_name }}</a>
-        </li>
-      {% endfor %}
 
-      <div id="sidebar">
-        <h3>Filter by Price</h3>
-        <form method="get" action="{% url 'shop:product_list' %}">
-          {{ form.as_p }}
-          <input type="submit" value="Apply">
-        </form>
-      </div>
 
-  </div>
-    </ul>
-  </div>
-  <div id="main" class="product-list">
-    <h1>{% if category %}{{ category.category_name }}{% else %}All Products{% endif %}</h1>
-    {% for product in products %}
-      <div class="item">
-        <a href="{{ product.get_absolute_url }}">
-          <img class="image-list" src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-        </a>
-        <a class="item" href="{{ product.get_absolute_url }}">{{ product.product_name }}</a>
-        <br>
-        EGP {{ product.price }}
-      </div>
-    {% endfor %}
-  </div>
+    <div class="row">
+        <!-- Left Side (Filters and Forms) -->
+        <div class="col-md-3">
+            <form method="get" action="{% url 'shop:product_list' %}">
+                {{ filter_form.as_p }}
+                <input type="submit" value="Apply" class="btn btn-warning">
+            </form>
+
+            <h3 style="margin-top: 100px">Categories</h3>
+                <div class="list-group">
+                        <a class="list-group-item list-group-item-action {% if not category %}active{% endif %}" href="{% url "shop:product_list" %}">All</a>
+                    {% for c in categories %}
+                        <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action {% if category and category.category_name == c.category_name %}active{% endif %}" aria-current="true">{{ c.category_name }} <span class="badge bg-primary">{{ c.product_count }}</span></a>
+                    {% endfor %}
+                </div>
+                
+        </div>
+
+
+        <!-- Right Side (Products) -->
+        <div class="col-md-8" style="margin-left: 100px;">
+            <h1>{% if category %}{{ category.category_name }}{% else %}All Products{% endif %}</h1>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="height: 400px;"> <!-- Set a fixed height for the card -->
+                            <img src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" class="card-img-top" alt="{{ product.product_name }}" style="height: 200px; object-fit: contain;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.product_name }}</h5>
+                                <p class="card-text">EGP {{ product.price }}</p>
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
