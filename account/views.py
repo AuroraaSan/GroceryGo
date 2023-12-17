@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, ProfileUpdateForm, AddressForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 
@@ -68,3 +68,32 @@ def account_view(request):
     }
 
     return render(request, 'account/account_details.html', context)
+
+@login_required
+def update_profile(request):
+    user = request.user
+    profile = user.profile
+
+    if request.method == 'POST':
+        profile_form = ProfileUpdateForm(request.POST, instance=profile, user=user)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('account')
+    else:
+        profile_form = ProfileUpdateForm(instance=profile, user=user)
+
+    return render(request, 'account/profile_update.html', {'profile_form': profile_form})
+
+@login_required
+def add_address(request):
+    if request.method == 'POST':
+        address_form = AddressForm(request.POST)
+        if address_form.is_valid():
+            new_address = address_form.save(commit=False)
+            new_address.profile = request.user.profile
+            new_address.save()
+            return redirect('account') 
+    else:
+        address_form = AddressForm()
+
+    return render(request, 'account/add_address.html', {'address_form': address_form})

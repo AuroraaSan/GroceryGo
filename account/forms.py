@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Address
 from phonenumber_field.formfields import PhoneNumberField
+
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -37,3 +38,53 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['date_of_birth', 'phone_number', 'address']
+
+
+from django import forms
+from .models import Profile
+
+class ProfileUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=100, required=False)
+    last_name = forms.CharField(max_length=100, required=False)
+    email = forms.EmailField(required=False)
+    address = forms.CharField(max_length=255, required=False)  # Add an address field
+
+    class Meta:
+        model = Profile
+        fields = ['date_of_birth', 'phone_number', 'address']  # Include the address field
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+
+        if user:
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name
+            self.fields['email'].initial = user.email
+
+            # Set initial value for address
+            if hasattr(user, 'profile') and user.profile.address:
+                self.fields['address'].initial = user.profile.address
+
+    def save(self, commit=True):
+        profile = super(ProfileUpdateForm, self).save(commit=False)
+        user = self.instance.user
+
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
+
+        # Update the address field in the profile
+        profile.address = self.cleaned_data['address']
+
+        if commit:
+            user.save()
+            profile.save()
+
+        return profile
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['street', 'city', 'postal_code', 'country']
+

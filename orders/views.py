@@ -13,7 +13,7 @@ from account.models import Profile
 
 def order_create(request):
     cart = CartWrapper(request.user)
-
+    form = OrderCreateForm(user=request.user)
     # Check if the cart is empty
     if not cart:
         # Redirect the user to the cart view or display an error message
@@ -27,7 +27,7 @@ def order_create(request):
 
 
     if request.method == "POST":
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
             order = form.save()
             order.first_name = user_first_name
@@ -46,7 +46,7 @@ def order_create(request):
 
             return redirect("orders:order_created", order_id=order.id)
     else:
-        form = OrderCreateForm(initial={'address': user_address, 'first_name': user_first_name, 'last_name': user_last_name, 'email': user_email})
+        form = OrderCreateForm(initial={'user_address': user_address, 'first_name': user_first_name, 'last_name': user_last_name, 'email': user_email, 'address': user_address}, user=request.user)
 
     return render(request, "orders/order/create.html", {"cart": cart, "form": form})
 
