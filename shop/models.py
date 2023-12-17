@@ -6,6 +6,7 @@ from django.utils.text import slugify
 import os
 
 
+
 # Create your models here.
 class Category(models.Model):
     cat_id = models.BigAutoField(primary_key=True)
@@ -318,7 +319,10 @@ class Product(models.Model):
     p_image = models.ImageField(upload_to='products/', blank=True)
     company= models.ForeignKey(Company, on_delete=models.SET_DEFAULT, null=True, default=1)
     cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    
+    total_users_purchased = models.PositiveIntegerField(default=0)
+    users_purchased_last_24_hours = models.PositiveIntegerField(default=0)
+    last_purchase_timestamp = models.DateTimeField(null=True, blank=True)
+
     class Meta:
         ordering = ['product_name']
         indexes = [

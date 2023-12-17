@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block title %}
-  {{product.product_name }}
+  {{ product.product_name }}
 {% endblock %}
 
 {% block content %}
 <div class="product-detail">
-  <img class='image-detail' src="{% if product.p_image %}{{product.p_image.url}}{% else %} {% static 'img/no_image.png' %}{% endif %}">
+  <img class='image-detail' src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
   <h1>{{ product.product_name }}</h1>
   <h2>
     <a href="{{ product.category.get_absolute_url }}">
@@ -21,5 +21,13 @@
   </form>
   <h2 style="text-align: left">Description:</h2>
   <p>{{ product.description | linebreaks }}</p>
+
+  {% with product.total_users_purchased as total_users %}
+    <p>Total users who purchased: {{ total_users }}</p>
+  {% endwith %}
+
+  {% with product.users_purchased_last_24_hours as users_last_24_hours %}
+  Users who purchased in the last 24 hours: {{ users_last_24_hours }}
+  {% endwith %}
 </div>
 {% endblock %}
