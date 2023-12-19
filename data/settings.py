@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     "phonenumber_field",
     'payment.apps.PaymentConfig',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [

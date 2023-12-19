@@ -278,6 +278,9 @@ class Product(models.Model):
             models.Index(fields=['product_name']),
         ]
 
+    def cal_discount(self):
+        return self.price * (1 - self.discount)
+
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.p_id, self.slug])
 

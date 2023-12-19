@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load mathfilters %}
 
 {% block title %}
   {% if category %}{{ category.category_name }}{% else %}Products{% endif %}
@@ -13,14 +14,14 @@
         <div class="col-md-3">
             <form method="get" action="{% url 'shop:product_list' %}">
                 {{ filter_form.as_p }}
-                <input type="submit" value="Apply" class="btn btn-warning">
+                <input type="submit" value="Apply" class="btn btn-success">
             </form>
 
             <h3 style="margin-top: 100px">Categories</h3>
                 <div class="list-group">
                         <a class="list-group-item list-group-item-action {% if not category %}active{% endif %}" href="{% url "shop:product_list" %}">All</a>
                     {% for c in categories %}
-                        <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action {% if category and category.category_name == c.category_name %}active{% endif %}" aria-current="true">{{ c.category_name }} <span class="badge bg-primary">{{ c.product_count }}</span></a>
+                        <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action {% if category and category.category_name == c.category_name %}active{% endif %}" aria-current="true">{{ c.category_name }}<span class="badge text-bg-secondary">{{ c.product_count }}</span></a>
                     {% endfor %}
                 </div>
                 
@@ -28,19 +29,40 @@
 
 
         <!-- Right Side (Products) -->
-        <div class="col-md-8" style="margin-left: 100px;">
+        <div class="col-md-9">
             <h1>{% if category %}{{ category.category_name }}{% else %}All Products{% endif %}</h1>
             <div class="row">
                 {% for product in products %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card" style="height: 400px;"> <!-- Set a fixed height for the card -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                          
+
+                            <div class="module"></div>
+                        
+                        <div class="card position-relative" style="height: 400px;">
+                            {% if product.company.nationality == 'EGY' %}
+
+                            <div class="position-absolute top-0 end-0 translate-middle badge bg-primary egypt" style="margin-top: 9px; margin-right: -51px;  background-image: linear-gradient(to right, red, white, black);">
+                                    <span class="text-stroke" style="color: white; -webkit-text-stroke: 1px black;">100% Egyptian</span>
+                            </div>
+                            {% endif %}
+
                             <img src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" class="card-img-top" alt="{{ product.product_name }}" style="height: 200px; object-fit: contain;">
                             <div class="card-body">
-                                <h5 class="card-title">{{ product.product_name }}</h5>
-                                <p class="card-text">EGP {{ product.price }}</p>
-                                <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
+                                <h5 class="card-title">{{ product.product_name }} {% if product.stock == 0 %} <span class="badge text-bg-danger">Out of Stock</span> {% endif %}</h5>
+                                {% if product.discount %}
+                                    <p class="card-text">EGP {{ product.cal_discount }}</p>
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
+                                    <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span>
+                                    {% else %}
+                                    <p class="card-text">EGP {{ product.price }}</p>
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
+                                {% endif %}
                             </div>
                         </div>
+
+
+
+
                     </div>
                 {% endfor %}
             </div>

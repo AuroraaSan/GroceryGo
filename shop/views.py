@@ -51,12 +51,7 @@ def product_list(request, category_name=None):
         if nationality:
             company_ids = list(Company.objects.filter(nationality=nationality).values_list('company_id', flat=True))
             products = products.filter(company_id__in=company_ids)
-
-        # categories_with_count = Category.objects.annotate(num_products=Count('product'))
-        # print(categories_with_count.values())
             
-        categories_numbers = products
-
     return render(
         request,
         "shop/product/list.html",
