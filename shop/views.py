@@ -3,14 +3,20 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from cart.forms import CartAddProductForm
 from .models import Product, Category, Company
-from django.db.models import Q, Max
-from .forms import ProductFilterForm
-
+from django.db.models import Q, Max, Count, F, Case, When, Sum
+from .forms import ProductFilterForm, ProductSearchForm
+from django.db import models  # Import the models module
+from cart import forms as cart_forms
 
 def product_list(request, category_name=None):
     category = None
     categories = Category.objects.all()
     products = Product.objects.all()
+    
+    filter_form = ProductFilterForm(request.GET)
+    search_form = ProductSearchForm(request.GET)
+    cart_form = cart_forms.CartAddProductForm(request.POST)
+    
     if category_name:
         category = get_object_or_404(Category, category_name=category_name)
         products = products.filter(Q(cat=category) | Q(cat__parent_cat=category))
@@ -50,8 +56,7 @@ def product_list(request, category_name=None):
     return render(
         request,
         "shop/product/list.html",
-        {"category": category, "categories": categories, "products": products, "form": form},
-    )
+        {"category": category, "categories": categories, "products": products, "filter_form": filter_form, 'search_form': search_form, 'cart_product_form': cart_form})
 
 
 def product_detail(request, id, slug):
