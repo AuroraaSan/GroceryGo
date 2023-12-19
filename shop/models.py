@@ -3,7 +3,10 @@ from django.utils import timezone
 from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
+from django.db.models import signals
+from django.dispatch import receiver
 import os
+
 
 
 # Create your models here.
@@ -11,6 +14,7 @@ class Category(models.Model):
     cat_id = models.BigAutoField(primary_key=True)
     category_name = models.CharField(max_length=100)
     parent_cat = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
+    product_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.category_name
@@ -36,19 +40,15 @@ class Company(models.Model):
     ('AFG', 'Afghanistan'),
     ('ALB', 'Albania'),
     ('DZA', 'Algeria'),
-    ('ASM', 'American Samoa'),
     ('AND', 'Andorra'),
     ('AGO', 'Angola'),
-    ('AIA', 'Anguilla'),
-    ('ATA', 'Antarctica'),
     ('ATG', 'Antigua and Barbuda'),
     ('ARG', 'Argentina'),
     ('ARM', 'Armenia'),
-    ('ABW', 'Aruba'),
     ('AUS', 'Australia'),
     ('AUT', 'Austria'),
     ('AZE', 'Azerbaijan'),
-    ('BHS', 'Bahamas (the)'),
+    ('BHS', 'Bahamas'),
     ('BHR', 'Bahrain'),
     ('BGD', 'Bangladesh'),
     ('BRB', 'Barbados'),
@@ -56,16 +56,12 @@ class Company(models.Model):
     ('BEL', 'Belgium'),
     ('BLZ', 'Belize'),
     ('BEN', 'Benin'),
-    ('BMU', 'Bermuda'),
     ('BTN', 'Bhutan'),
-    ('BOL', 'Bolivia (Plurinational State of)'),
-    ('BES', 'Bonaire, Sint Eustatius and Saba'),
+    ('BOL', 'Bolivia'),
     ('BIH', 'Bosnia and Herzegovina'),
     ('BWA', 'Botswana'),
-    ('BVT', 'Bouvet Island'),
     ('BRA', 'Brazil'),
-    ('IOT', 'British Indian Ocean Territory (the)'),
-    ('BRN', 'Brunei Darussalam'),
+    ('BRN', 'Brunei'),
     ('BGR', 'Bulgaria'),
     ('BFA', 'Burkina Faso'),
     ('BDI', 'Burundi'),
@@ -73,29 +69,22 @@ class Company(models.Model):
     ('KHM', 'Cambodia'),
     ('CMR', 'Cameroon'),
     ('CAN', 'Canada'),
-    ('CYM', 'Cayman Islands (the)'),
-    ('CAF', 'Central African Republic (the)'),
+    ('CAF', 'Central African Republic'),
     ('TCD', 'Chad'),
     ('CHL', 'Chile'),
     ('CHN', 'China'),
-    ('CXR', 'Christmas Island'),
-    ('CCK', 'Cocos (Keeling) Islands (the)'),
     ('COL', 'Colombia'),
-    ('COM', 'Comoros (the)'),
-    ('COD', 'Congo (the Democratic Republic of the)'),
-    ('COG', 'Congo (the)'),
-    ('COK', 'Cook Islands (the)'),
+    ('COM', 'Comoros'),
+    ('COG', 'Congo'),
     ('CRI', 'Costa Rica'),
     ('HRV', 'Croatia'),
     ('CUB', 'Cuba'),
-    ('CUW', 'Curaçao'),
     ('CYP', 'Cyprus'),
     ('CZE', 'Czechia'),
-    ('CIV', "Côte d'Ivoire"),
     ('DNK', 'Denmark'),
     ('DJI', 'Djibouti'),
     ('DMA', 'Dominica'),
-    ('DOM', 'Dominican Republic (the)'),
+    ('DOM', 'Dominican Republic'),
     ('ECU', 'Ecuador'),
     ('EGY', 'Egypt'),
     ('SLV', 'El Salvador'),
@@ -104,57 +93,43 @@ class Company(models.Model):
     ('EST', 'Estonia'),
     ('SWZ', 'Eswatini'),
     ('ETH', 'Ethiopia'),
-    ('FLK', 'Falkland Islands (the) [Malvinas]'),
-    ('FRO', 'Faroe Islands (the)'),
     ('FJI', 'Fiji'),
     ('FIN', 'Finland'),
     ('FRA', 'France'),
-    ('GUF', 'French Guiana'),
-    ('PYF', 'French Polynesia'),
-    ('ATF', 'French Southern Territories (the)'),
     ('GAB', 'Gabon'),
-    ('GMB', 'Gambia (the)'),
+    ('GMB', 'Gambia'),
     ('GEO', 'Georgia'),
     ('DEU', 'Germany'),
     ('GHA', 'Ghana'),
-    ('GIB', 'Gibraltar'),
     ('GRC', 'Greece'),
-    ('GRL', 'Greenland'),
     ('GRD', 'Grenada'),
-    ('GLP', 'Guadeloupe'),
-    ('GUM', 'Guam'),
     ('GTM', 'Guatemala'),
-    ('GGY', 'Guernsey'),
     ('GIN', 'Guinea'),
     ('GNB', 'Guinea-Bissau'),
     ('GUY', 'Guyana'),
     ('HTI', 'Haiti'),
-    ('HMD', 'Heard Island and McDonald Islands'),
-    ('VAT', 'Holy See (the)'),
     ('HND', 'Honduras'),
-    ('HKG', 'Hong Kong'),
     ('HUN', 'Hungary'),
     ('ISL', 'Iceland'),
     ('IND', 'India'),
     ('IDN', 'Indonesia'),
-    ('IRN', 'Iran (Islamic Republic of)'),
+    ('IRN', 'Iran'),
     ('IRQ', 'Iraq'),
     ('IRL', 'Ireland'),
-    ('IMN', 'Isle of Man'),
     ('ISR', 'Israel'),
     ('ITA', 'Italy'),
     ('JAM', 'Jamaica'),
     ('JPN', 'Japan'),
-    ('JEY', 'Jersey'),
     ('JOR', 'Jordan'),
     ('KAZ', 'Kazakhstan'),
     ('KEN', 'Kenya'),
     ('KIR', 'Kiribati'),
-    ('PRK', "Korea (the Democratic People's Republic of)"),
-    ('KOR', 'Korea (the Republic of)'),
+    ('PRK', 'Korea (North)'),
+    ('KOR', 'Korea (South)'),
+    ('XKX', 'Kosovo'),
     ('KWT', 'Kuwait'),
     ('KGZ', 'Kyrgyzstan'),
-    ('LAO', "Lao People's Democratic Republic (the)"),
+    ('LAO', 'Laos'),
     ('LVA', 'Latvia'),
     ('LBN', 'Lebanon'),
     ('LSO', 'Lesotho'),
@@ -163,66 +138,50 @@ class Company(models.Model):
     ('LIE', 'Liechtenstein'),
     ('LTU', 'Lithuania'),
     ('LUX', 'Luxembourg'),
-    ('MAC', 'Macao'),
     ('MDG', 'Madagascar'),
     ('MWI', 'Malawi'),
     ('MYS', 'Malaysia'),
     ('MDV', 'Maldives'),
     ('MLI', 'Mali'),
     ('MLT', 'Malta'),
-    ('MHL', 'Marshall Islands (the)'),
-    ('MTQ', 'Martinique'),
+    ('MHL', 'Marshall Islands'),
     ('MRT', 'Mauritania'),
     ('MUS', 'Mauritius'),
-    ('MYT', 'Mayotte'),
     ('MEX', 'Mexico'),
-    ('FSM', 'Micronesia (Federated States of)'),
-    ('MDA', 'Moldova (the Republic of)'),
+    ('FSM', 'Micronesia'),
+    ('MDA', 'Moldova'),
     ('MCO', 'Monaco'),
     ('MNG', 'Mongolia'),
     ('MNE', 'Montenegro'),
-    ('MSR', 'Montserrat'),
     ('MAR', 'Morocco'),
     ('MOZ', 'Mozambique'),
     ('MMR', 'Myanmar'),
     ('NAM', 'Namibia'),
     ('NRU', 'Nauru'),
     ('NPL', 'Nepal'),
-    ('NLD', 'Netherlands (the)'),
-    ('NCL', 'New Caledonia'),
+    ('NLD', 'Netherlands'),
     ('NZL', 'New Zealand'),
     ('NIC', 'Nicaragua'),
-    ('NER', 'Niger (the)'),
+    ('NER', 'Niger'),
     ('NGA', 'Nigeria'),
-    ('NIU', 'Niue'),
-    ('NFK', 'Norfolk Island'),
-    ('MNP', 'Northern Mariana Islands (the)'),
+    ('MKD', 'North Macedonia'),
     ('NOR', 'Norway'),
     ('OMN', 'Oman'),
     ('PAK', 'Pakistan'),
     ('PLW', 'Palau'),
-    ('PSE', 'Palestine, State of'),
     ('PAN', 'Panama'),
     ('PNG', 'Papua New Guinea'),
     ('PRY', 'Paraguay'),
     ('PER', 'Peru'),
-    ('PHL', 'Philippines (the)'),
-    ('PCN', 'Pitcairn'),
+    ('PHL', 'Philippines'),
     ('POL', 'Poland'),
     ('PRT', 'Portugal'),
-    ('PRI', 'Puerto Rico'),
     ('QAT', 'Qatar'),
-    ('MKD', 'Republic of North Macedonia'),
     ('ROU', 'Romania'),
-    ('RUS', 'Russian Federation (the)'),
+    ('RUS', 'Russia'),
     ('RWA', 'Rwanda'),
-    ('REU', 'Réunion'),
-    ('BLM', 'Saint Barthélemy'),
-    ('SHN', 'Saint Helena, Ascension and Tristan da Cunha'),
     ('KNA', 'Saint Kitts and Nevis'),
     ('LCA', 'Saint Lucia'),
-    ('MAF', 'Saint Martin (French part)'),
-    ('SPM', 'Saint Pierre and Miquelon'),
     ('VCT', 'Saint Vincent and the Grenadines'),
     ('WSM', 'Samoa'),
     ('SMR', 'San Marino'),
@@ -233,55 +192,45 @@ class Company(models.Model):
     ('SYC', 'Seychelles'),
     ('SLE', 'Sierra Leone'),
     ('SGP', 'Singapore'),
-    ('SXM', 'Sint Maarten (Dutch part)'),
     ('SVK', 'Slovakia'),
     ('SVN', 'Slovenia'),
     ('SLB', 'Solomon Islands'),
     ('SOM', 'Somalia'),
     ('ZAF', 'South Africa'),
-    ('SGS', 'South Georgia and the South Sandwich Islands'),
     ('SSD', 'South Sudan'),
     ('ESP', 'Spain'),
     ('LKA', 'Sri Lanka'),
-    ('SDN', 'Sudan (the)'),
+    ('SDN', 'Sudan'),
     ('SUR', 'Suriname'),
-    ('SJM', 'Svalbard and Jan Mayen'),
     ('SWE', 'Sweden'),
     ('CHE', 'Switzerland'),
-    ('SYR', 'Syrian Arab Republic'),
-    ('TWN', 'Taiwan (Province of China)'),
+    ('SYR', 'Syria'),
+    ('TWN', 'Taiwan'),
     ('TJK', 'Tajikistan'),
-    ('TZA', 'Tanzania, United Republic of'),
+    ('TZA', 'Tanzania'),
     ('THA', 'Thailand'),
     ('TLS', 'Timor-Leste'),
     ('TGO', 'Togo'),
-    ('TKL', 'Tokelau'),
     ('TON', 'Tonga'),
     ('TTO', 'Trinidad and Tobago'),
     ('TUN', 'Tunisia'),
     ('TUR', 'Turkey'),
     ('TKM', 'Turkmenistan'),
-    ('TCA', 'Turks and Caicos Islands (the)'),
     ('TUV', 'Tuvalu'),
     ('UGA', 'Uganda'),
     ('UKR', 'Ukraine'),
-    ('ARE', 'United Arab Emirates (the)'),
-    ('GBR', 'United Kingdom of Great Britain and Northern Ireland (the)'),
-    ('UMI', 'United States Minor Outlying Islands (the)'),
-    ('USA', 'United States of America (the)'),
+    ('ARE', 'United Arab Emirates'),
+    ('GBR', 'United Kingdom'),
+    ('USA', 'United States'),
     ('URY', 'Uruguay'),
     ('UZB', 'Uzbekistan'),
     ('VUT', 'Vanuatu'),
-    ('VEN', 'Venezuela (Bolivarian Republic of)'),
-    ('VNM', 'Viet Nam'),
-    ('VGB', 'Virgin Islands (British)'),
-    ('VIR', 'Virgin Islands (U.S.)'),
-    ('WLF', 'Wallis and Futuna'),
-    ('ESH', 'Western Sahara'),
+    ('VAT', 'Vatican City'),
+    ('VEN', 'Venezuela'),
+    ('VNM', 'Vietnam'),
     ('YEM', 'Yemen'),
     ('ZMB', 'Zambia'),
     ('ZWE', 'Zimbabwe'),
-    ('ALA', 'Åland Islands'),
 ]
     nationality = models.CharField(max_length=3, choices=NATIONALITY_CHOICES)
     speciality = models.ManyToManyField(Category, blank=True)
@@ -296,6 +245,8 @@ class Company(models.Model):
         ]
         verbose_name = 'company'
         verbose_name_plural = 'companies'
+    
+    
 
     
 class Product(models.Model):
@@ -316,13 +267,19 @@ class Product(models.Model):
     p_image = models.ImageField(upload_to='products/', blank=True)
     company= models.ForeignKey(Company, on_delete=models.SET_DEFAULT, null=True, default=1)
     cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    
+    total_users_purchased = models.PositiveIntegerField(default=0)
+    users_purchased_last_24_hours = models.PositiveIntegerField(default=0)
+    last_purchase_timestamp = models.DateTimeField(null=True, blank=True)
+
     class Meta:
         ordering = ['product_name']
         indexes = [
             models.Index(fields=['p_id', 'slug']),
             models.Index(fields=['product_name']),
         ]
+
+    def cal_discount(self):
+        return self.price * (1 - self.discount)
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.p_id, self.slug])
@@ -346,3 +303,15 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+
+@receiver(signals.post_save, sender=Product)
+@receiver(signals.post_delete, sender=Product)
+def update_category_product_count(sender, instance, **kwargs):
+    """
+    Signal handler to update the product_count of the associated category when a product is saved or deleted.
+    """
+    category = instance.cat
+    if category:
+        category.product_count = category.product_set.count()
+        category.save()

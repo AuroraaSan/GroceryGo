@@ -1,0 +1,16 @@
+<!-- _search_form.html -->
+<form method="get" action="{% url 'shop:product_list' %}">
+    <div class="row">
+        <div class="col-5">
+            {{ search_form.search_query }}
+        </div>
+
+        <div class="col-3">
+            {{ search_form.search_category }}
+        </div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
+    </div>
+</form> 

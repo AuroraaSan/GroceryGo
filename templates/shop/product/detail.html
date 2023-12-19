@@ -1,25 +1,51 @@
 {% extends "base.html" %}
 {% load static %}
+{% load mathfilters %}
 
 {% block title %}
-  {{product.product_name }}
+    {{ product.product_name }}
 {% endblock %}
 
 {% block content %}
-<div class="product-detail">
-  <img class='image-detail' src="{% if product.p_image %}{{product.p_image.url}}{% else %} {% static 'img/no_image.png' %}{% endif %}">
-  <h1>{{ product.product_name }}</h1>
-  <h2>
-    <a href="{{ product.category.get_absolute_url }}">
-      {{ product.category }}
-    </a>
-  </h2>
-  <p class="price">EGP {{ product.price }}</p>
-  <form action="{% url 'cart:cart_add' product.p_id %}" method="post">
-    {{ cart_product_form }} {% csrf_token %}
-    <input type="submit" value="Add to cart" />
-  </form>
-  <h2 style="text-align: left">Description:</h2>
-  <p>{{ product.description | linebreaks }}</p>
-</div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img class="img-fluid" style="height: 500px;" src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ product.product_name }}">
+            </div>
+            <div class="col-md-6">
+                <h1>{{ product.product_name }}</h1>
+                <h2>
+                    <a href="{{ product.category.get_absolute_url }}">
+                        {{ product.category }}
+                    </a>
+                </h2>
+                {% if product.discount %}
+                    <h3 class="price">EGP {{ product.cal_discount }} <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span></h3>
+                {% else %}
+                    <h3 class="price">EGP {{ product.price }}</h3>
+                {% endif %}
+                <br>
+                <form action="{% url 'cart:cart_add' product.p_id %}" method="post">
+                    {{ cart_product_form.as_p }} {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Add to Cart</button>
+                </form>
+                <br>
+                <br>
+                {% with product.total_users_purchased as total_users %}
+                    <p style="font-style: italic; font-weight: 400;">Total users who purchased: {{ total_users }}</p>
+                {% endwith %}
+
+                {% with product.users_purchased_last_24_hours as users_last_24_hours %}
+                    <p style="font-style: italic;">Users who purchased in the last 24 hours: {{ users_last_24_hours }}</p>
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h2>Description:</h2>
+                <p>{{ product.description | linebreaks }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
