@@ -28,10 +28,8 @@ def order_create(request):
     if request.method == "POST":
         form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
-            order = form.save()
-            order.first_name = user_first_name
-            order.last_name = user_last_name
-            order.email = user_email
+            order = form.save(commit=False)
+            order.user = request.user
             order.save()
             for item in cart:
                 OrderItem.objects.create(

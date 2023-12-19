@@ -3,40 +3,29 @@
 <html lang="en">
   <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %}" />
-    <link rel="stylesheet" href="{% static "css/CSS/base.css" %}" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-        <nav class="navbar bg-dark navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
-
-            <div class="container-fluid">
-                <img src="{% static 'logoo.png' %}" class="logo-img">
-                <a class="navbar-brand" style="font-size: 2em; font-family: Fasthand" href="{% url 'shop:product_list' %}">GroceryGo</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
-
-                    <div class="navbar-nav">
-                            <a class="nav-link {% if 'shop' in request.path %}active{% endif %}" href="{% url "shop:product_list" %}">Products</a>
-                            <a class="nav-link {% if 'order' in request.path %}active{% endif %}" href="#">Orders</a>
-                            <a class="nav-link {% if 'cart' in request.path %}active{% endif %}" href="{% url "cart:cart_detail" %}">My Cart</a>
-                            <a class="nav-link {% if 'account' in request.path %}active{% endif %}" href="{% url "account_details" %}">Profile</a>
-                    </div>
-
-                    <p class="d-inline-flex" style="margin-top: 12px">
-                        <button class="btn btn-light search-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Search
-                        </button>
-                    </p>
-
-                </div>
+    <link href="{% static 'css/CSS/base.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <div class="logo-container">
+          <a href="{% url "shop:product_list" %}" class="logo-link">
+            <img src="{% static 'logoo.png' %}" alt="Logo Image" class="logo-img">
+            <span class="logo-text">GroceryGo</span>
+          </a>
+            {% if request.user.is_authenticated %}
+            <ul class="menu">
+              <li>
+            </li>
+              <li {% if section == "myacc" %}class="selected"{% endif %}>
+                <a href="{% url "account" %}">My Account</a>
+              </li>
+              <li {% if section == "cart" %}class="selected"{% endif %}>
+                <a href="{% url "cart:cart_detail" %}">My cart</a>
+              </li>
+            </ul>
+          {% endif %}
+          <div class="user-info">
+            <span class="hello-message">
                 {% if request.user.is_authenticated %}
                         <div class="user-info">
                             <span class="hello-message">Hello {{ request.user.first_name|default:request.user.username }},</span>

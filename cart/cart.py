@@ -11,7 +11,6 @@ class CartWrapper:
         """
         Initialize the cart.
         """
-        self.user = user
         self.cart, created = Cart.objects.get_or_create(user=user)
 
     def add(self, product, quantity=1, override_quantity=False):
