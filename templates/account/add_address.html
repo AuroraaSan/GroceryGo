@@ -1,0 +1,18 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block title %}
+Add Address
+{% endblock %}
+
+{% block content %}
+<h2>Add New Address</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ address_form.as_p }}
+    <button type="submit">Add Address</button>
+</form>
+<a href="{% url 'account' %}">Back to Profile</a>
+
+
+{% endblock %}
