@@ -2,11 +2,13 @@
 from django.contrib.auth.models import User
 from django.db import models
 from shop.models import Product
+from coupons.models import Coupon
 
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through="CartItem")
+    coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"Cart for {self.user.username}"

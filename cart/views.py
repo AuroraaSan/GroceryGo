@@ -4,7 +4,7 @@ from shop.models import Product
 from .cart import CartWrapper
 from .forms import CartAddProductForm
 from django.contrib import messages
-
+from coupons.forms import CouponApplyForm
 
 # Create your views here.
 
@@ -23,7 +23,9 @@ def cart_add(request, p_id):
             quantity=cd["quantity"],
             override_quantity=cd["override"],
         )
-    messages.success(request, f'{product.product_name} added to your cart successfully.')
+    messages.success(
+        request, f"{product.product_name} added to your cart successfully."
+    )
 
     return redirect("shop:product_list")
 
@@ -40,4 +42,9 @@ def cart_remove(request, p_id):
 def cart_detail(request):
     user = request.user
     cart = CartWrapper(user)
-    return render(request, "cart/detail.html", {"cart": cart})
+    coupon_apply_form = CouponApplyForm()
+    return render(
+        request,
+        "cart/detail.html",
+        {"cart": cart, "coupon_apply_form": coupon_apply_form},
+    )

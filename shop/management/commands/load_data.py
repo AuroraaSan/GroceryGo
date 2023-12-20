@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 product_name = row.get("Name", "")
                 description = row.get("Description", "")
                 price = float(row.get("Price", 0.0))
-                stock = int(row.get("Stock", 0))
+                stock = int(row.get("Stock", 10))
                 discount = float(row.get("Discount", 0.0))
                 manufacture_date, expiry_date = generate_manufacturing_expiry_dates()
                 purchased_gen = int(row.get("PurchasedGen", 0))
