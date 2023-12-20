@@ -9,6 +9,7 @@ import weasyprint
 from django.contrib.admin.views.decorators import staff_member_required
 from account.models import Profile
 import os
+from django.contrib.auth.decorators import login_required
 
 
 def order_create(request):
@@ -73,3 +74,13 @@ def admin_order_pdf(request, order_id):
         response, stylesheets=[weasyprint.CSS(css_file_path)]
     )
     return response
+
+@login_required
+def all_user_orders(request):
+    user = request.user
+    orders = Order.objects.all(user=user)
+    return render(request, "orders/order/orders.html", {"orders": orders, 'user':user})
+
+@login_required
+def get_user(request):
+    pass

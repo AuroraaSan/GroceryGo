@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if user %}{{ user.username }}'s Orders{% else %}Orders{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1>{% if user %}{{ user.username }}'s Orders{% else %}Orders{% endif %}</h1>
+
+    {% if orders %}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.created_at }}</td>
+              <td>EGP {{ order.total_amount }}</td>
+              <td>{{ order.status }}</td>
+              <td>
+                <a href="{% url 'order_detail' order.id %}" class="btn btn-primary btn-sm">View Details</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>{% if user %}{{ user.username }} has no orders{% else %}No orders available{% endif %}</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -144,3 +144,7 @@ th, td
     border-radius: 25px;
     padding: 30px;
 }
+
+nav .paginator {
+    background-color: var(--dark) !important;
+}

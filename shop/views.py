@@ -62,8 +62,8 @@ def product_list(request, category_name=None):
                 )
             )
             products = products.filter(company_id__in=company_ids)
-    # Pagination with 10 products per page
-    paginator = Paginator(products, 10)
+    # Pagination with 12 products per page
+    paginator = Paginator(products, 12)
     page_number = request.GET.get("page", 1)
 
     try:
