@@ -18,11 +18,19 @@ def cart_add(request, p_id):
 
     if form.is_valid():
         cd = form.cleaned_data
+        if product.stock < cd['quantity']:
+            messages.error(request, f'Sorry, {product.product_name} stock is less than requested.', extra_tags='danger')
+            return redirect("shop:product_list")
+        
         cart.add(
             product=product,
             quantity=cd["quantity"],
             override_quantity=cd["override"],
         )
+
+        product.stock -= cd['quantity']
+        
+        product.save()
     messages.success(request, f'{product.product_name} added to your cart successfully.')
 
     return redirect("shop:product_list")

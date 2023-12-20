@@ -7,58 +7,62 @@
 
 {% block content %}
   <h1>Your shopping cart</h1>
-  <table class="cart">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Remove</th>
-        <th>Unit price</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart %}
-        {% with product=item.product %}
-          <tr>
-            <td>
-              <a href="{{ product.get_absolute_url }}">
-                <img src="{% if product.p_image %}{{ product.p_image }}
-                {% else %}{% static "img/no_image.png" %}{% endif %}">
-              </a>
-            </td>
-            <td>{{ product.product_name }}</td>
-            <td>
-              <form action="{% url "cart:cart_add" product.p_id %}" method="post">
-                {{ item.update_quantity_form.quantity }}
-                {{ item.update_quantity_form.override }}
-                <input type="submit" value="Update">
-                {% csrf_token %}
-              </form>
-            </td>
-            <td>
-              <form action="{% url "cart:cart_remove" product.p_id %}" method="post">
-                <input type="submit" value="Remove">
-                {% csrf_token %}
-              </form>
-            </td>
-            <td class="num">EGP {{ item.price | floatformat}}</td>
-            <td class="num">EGP {{ item.total_price | floatformat}}</td>
-          </tr>
-        {% endwith %}
-      {% endfor %}
-      <tr class="total">
-        <td>Total</td>
-        <td colspan="4"></td>
-        <td class="num">EGP {{ cart.get_total_price }}</td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div class="container mt-4 ml-3">
+
+  <table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Remove</th>
+      <th>Unit price</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart %}
+      {% with product=item.product %}
+        <tr>
+          <td>
+            <a href="{{ product.get_absolute_url }}">
+              <img style="max-height: 100px;" src="{% if product.p_image %} {{ product.p_image }}
+              {% else %}{% static "img/no_image.png" %}{% endif %}">
+            </a>
+          </td>
+          <td>{{ product.product_name }}</td>
+          <td>
+            <form action="{% url "cart:cart_add" product.p_id %}" method="post">
+              {{ item.update_quantity_form.quantity }}
+              {{ item.update_quantity_form.override }}
+              <button type="submit" class="btn btn-primary">Update</button>
+              {% csrf_token %}
+            </form>
+          </td>
+          <td>
+            <form action="{% url "cart:cart_remove" product.p_id %}" method="post">
+              <button type="submit" class="btn btn-danger">Remove</button>
+              {% csrf_token %}
+            </form>
+          </td>
+          <td class="num">EGP {{ item.price | floatformat }}</td>
+          <td class="num">EGP {{ item.total_price | floatformat }}</td>
+        </tr>
+      {% endwith %}
+    {% endfor %}
+    <tr class="total">
+      <td style="font-size: 1.5em;">Total</td>
+      <td colspan="4"></td>
+      <td class="num">EGP {{ cart.get_total_price | floatformat }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
   {% if cart|length > 0 %}
     <p class="text-right">
-      <a href="{% url "shop:product_list" %}" class="button light">Continue shopping</a>
-      <a href="{% url "orders:order_create" %}" class="button">Checkout</a>
+      <a href="{% url "shop:product_list" %}" class="btn btn-primary">Continue shopping</a>
+      <a href="{% url "orders:order_create" %}" class="btn btn-success">Checkout</a>
     </p>
   {% else %}
     <p>Your cart is empty.</p>

@@ -9,7 +9,8 @@
 {% block content %}
 {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message.tags }}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -20,17 +21,17 @@
 
     <div class="row">
         <!-- Left Side (Filters and Forms) -->
-        <div class="col-md-3">
+        <div class="col-md-3 mt-5">
             <form method="get" action="{% url 'shop:product_list' %}">
                 {{ filter_form.as_p }}
                 <input type="submit" value="Apply" class="btn btn-success">
             </form>
 
-            <h3 style="margin-top: 100px">Categories</h3>
+            <h3 style="margin-top: 70px">Categories</h3>
                 <div class="list-group">
                         <a class="list-group-item list-group-item-action {% if not category %}active{% endif %}" href="{% url "shop:product_list" %}">All</a>
                     {% for c in categories %}
-                        <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action {% if category and category.category_name == c.category_name %}active{% endif %}" aria-current="true">{{ c.category_name }}<span class="badge text-bg-secondary">{{ c.product_count }}</span></a>
+                        <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action {% if category and category.category_name == c.category_name %}active{% endif %}" aria-current="true">{{ c.category_name }} &nbsp; <span class="badge text-bg-secondary">{{ c.product_count }}</span></a>
                     {% endfor %}
                 </div>
                 
@@ -38,7 +39,7 @@
 
 
         <!-- Right Side (Products) -->
-        <div class="col-md-9">
+        <div class="col-md-9 mt-4">
             <h1>{% if category %}{{ category.category_name }}{% else %}All Products{% endif %}</h1>
             <div class="row">
                 {% for product in products %}
@@ -57,19 +58,22 @@
                             
                             
                             <div class="card-body">
-                                <h5 class="card-title">{{ product.product_name }} {% if product.stock == 0 %} <span class="badge text-bg-danger">Out of Stock</span> {% endif %}</h5>
+                                <h5 class="card-title">{{ product.product_name }}  <!-- {% if product.stock == 0 %} <span class="badge text-bg-danger">Out of Stock</span> {% endif %} --> </h5>
                                 {% if product.discount %}
-                                    <p class="card-text">EGP {{ product.cal_discount }}</p>
-                                    <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
+                                    <p class="card-text">EGP {{ product.cal_discount }}</p>                                    
                                     <br>
                                     <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span>
                                     {% else %}
                                     <p class="card-text">EGP {{ product.price }}</p>
                                     <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
-                                    <br>
+                                    {% if product.stock == 0 %}
+                                            <button type="submit" class="btn btn-danger" disabled >Out of Stock</button>
+                                    {% else %}
                                     <form action="{% url 'cart:cart_add' product.p_id %}" method="post">
-                                            {{ cart_product_form }} {% csrf_token %}
-                                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                                                {{ cart_product_form }} {% csrf_token %}
+                                                <button type="submit" class="btn btn-success">Add to Cart</button>
+                                    {% endif %}
+                                            
                                     </form>
                                 {% endif %}
                             </div>
@@ -83,11 +87,10 @@
         </div>
         <!-- Centered Pagination -->
             <div class="d-flex justify-content-center">
-                <nav aria-label="..." class="paginator">
                     <ul class="pagination">
                         {% if products.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=1" tabindex="-1">&laquo; 1</a>
+                                <a class="page-link" href="?page=1" tabindex="-1">&laquo; First</a>
                             </li>
                             <li class="page-item">
                                 <a class="page-link" href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a>
@@ -105,11 +108,10 @@
                                 <a class="page-link" href="?page={{ products.next_page_number }}">{{ products.next_page_number }}</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ products.paginator.num_pages }}">{{ products.paginator.num_pages }} &raquo;</a>
+                                <a class="page-link" href="?page={{ products.paginator.num_pages }}">Last ({{ products.paginator.num_pages }}) &raquo;</a>
                             </li>
                         {% endif %}
                     </ul>
-                </nav>
             </div>
 
 
