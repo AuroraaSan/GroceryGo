@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, ProfileUpdateForm, AddressForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
+from django.contrib import messages
 
 # Create your views here.
 #validation of user 
@@ -33,14 +34,16 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             # Create a new user object but avoid saving it yet
-            new_user = user_form.save(commit=False)
+            new_user = user_form.save()
             # Set the chosen password
             new_user.set_password(
                 user_form.cleaned_data['password'])
             # Save the User object
             new_user.save()
             # Create the user profile
-            Profile.objects.create(user=new_user)
+            Profile.objects.create(user=new_user,
+                    phone_number = user_form.cleaned_data['phone_number'],
+                    address = user_form.cleaned_data['address'], date_of_birth=user_form.cleaned_data['date_of_birth'])
             return render(request,
                           'account/register_done.html',
                           {'new_user': new_user})
@@ -71,9 +74,11 @@ def account_view(request):
 
 @login_required
 def update_profile(request):
-    user = request.user
-    profile = user.profile
-
+    user = request.user         
+    if hasattr(user, 'profile'):
+        profile = user.profile
+    else:
+        profile = Profile.objects.create(user=user)
     if request.method == 'POST':
         profile_form = ProfileUpdateForm(request.POST, instance=profile, user=user)
         if profile_form.is_valid():
