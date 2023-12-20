@@ -12,7 +12,6 @@
   </head>
   <body>
         <nav class="navbar bg-dark navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
-
             <div class="container-fluid">
                 <img src="{% static 'logoo.png' %}" class="logo-img">
                 <a class="navbar-brand" style="font-size: 2em; font-family: Fasthand" href="{% url 'shop:product_list' %}">GroceryGo</a>
@@ -22,19 +21,19 @@
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
-
-                    <div class="navbar-nav">
-                            <a class="nav-link {% if 'shop' in request.path %}active{% endif %}" href="{% url "shop:product_list" %}">Products</a>
-                            <a class="nav-link {% if 'order' in request.path %}active{% endif %}" href="#">Orders</a>
-                            <a class="nav-link {% if 'cart' in request.path %}active{% endif %}" href="{% url "cart:cart_detail" %}">My Cart</a>
-                            <a class="nav-link {% if 'account' in request.path %}active{% endif %}" href="{% url "account" %}">Profile</a>
-                    </div>
-
                     <p class="d-inline-flex" style="margin-top: 12px">
                         <button class="btn btn-light search-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             Search
                         </button>
                     </p>
+                    <div class="navbar-nav">
+                            <a class="nav-link {% if 'shop' in request.path %}active{% endif %}" href="{% url "shop:product_list" %}">Products</a>
+                            <a class="nav-link {% if 'order' in request.path %}active{% endif %}" href="#">Orders</a>
+                            <a class="nav-link {% if 'cart' in request.path %}active{% endif %}" href="{% url "cart:cart_detail" %}">My Cart</a>
+                            {% comment %} <a class="nav-link {% if 'account' in request.path %}active{% endif %}" href="{% url "account" %}">Profile</a> {% endcomment %}
+                    </div>
+
+
                     {% if not request.user.is_authenticated %}
                     <div class="navbar-nav mr-auto">
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
@@ -52,8 +51,6 @@
                 {% endif %}
             </div>
         </nav>
-            
-
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
                {% include 'search_form.html' %}
