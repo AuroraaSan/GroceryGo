@@ -38,6 +38,11 @@ def user_login(request):
 
 
 def register(request):
+    #to prevent user from accessing the register page when logged in
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in.')
+        return redirect('shop:product_list')
+
     if request.method == "POST":
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():

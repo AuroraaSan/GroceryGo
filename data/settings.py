@@ -144,6 +144,10 @@ LOGIN_URL = "login"
 LOGOUT_URL = "logout"
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 CART_SESSION_ID = "cart"
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+#MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+CART_SESSION_ID = 'cart'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
