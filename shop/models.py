@@ -288,17 +288,6 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.product_name)
 
-        if self.p_image and not hasattr(self.p_image, 'original_name'):
-            try:
-                file_name, ext = os.path.splitext(self.p_image.name)
-                new_name = f"{slugify(self.product_name)}{ext}"
-                self.p_image.name = new_name
-                setattr(self.p_image, 'original_name', file_name)
-            except Exception as e:
-                # If there's an error, revert to the original file name
-                self.p_image.name = file_name
-                setattr(self.p_image, 'original_name', file_name)
-
         super().save(*args, **kwargs)
 
     def __str__(self):
