@@ -5,6 +5,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
 from django.db.models import signals
 from django.dispatch import receiver
+from django.db.models import F, Sum
+from django.db.models.signals import post_save, post_delete
 
 
 # Create your models here.
@@ -260,8 +262,6 @@ class Product(models.Model):
     )
     manfacture_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(null=False, blank=False)
-    purchased_gen = models.IntegerField(default=0)
-    purchased_24 = models.IntegerField(default=0)
     p_image = models.ImageField(upload_to="products/", blank=True)
     company = models.ForeignKey(
         Company, on_delete=models.SET_DEFAULT, null=True, default=1
@@ -304,3 +304,7 @@ def update_category_product_count(sender, instance, **kwargs):
     if category:
         category.product_count = category.product_set.count()
         category.save()
+        parent_category = category.parent_cat
+        while parent_category:
+            parent_category.product_count = parent_category.product_set.aggregate(Sum('product_count'))['product_count__sum']
+            parent_category.save()

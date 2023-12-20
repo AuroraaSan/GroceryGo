@@ -1,3 +1,6 @@
+""" Account app forms """
+
+
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile, Address
@@ -5,11 +8,32 @@ from phonenumber_field.formfields import PhoneNumberField
 from django import forms
 from .models import Profile
 
+
 class LoginForm(forms.Form):
+    """
+    Form for user login.
+
+    Fields:
+    - username: User's username for authentication.
+    - password: User's password for authentication.
+    """
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': 'Password'}))
 #user model
 class UserRegistrationForm(forms.ModelForm):
+    """
+    Form for user registration.
+
+    Extends ModelForm for the User model and includes additional fields:
+    - first_name: User's first name.
+    - last_name: User's last name.
+    - email: User's email address.
+    - date_of_birth: User's date of birth.
+    - phone_number: User's phone number.
+    - address: User's address.
+    - password: User's password.
+    - password2: Confirmation of the password.
+    """
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'First name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Last name'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Username'}))
@@ -32,11 +56,27 @@ class UserRegistrationForm(forms.ModelForm):
         return cd['password2']
 # allow users to edit their first name, last name, and email
 class UserEditForm(forms.ModelForm):
+    """
+    Form for users to edit their basic information.
+
+    Extends ModelForm for the User model and includes fields:
+    - first_name: User's first name.
+    - last_name: User's last name.
+    - email: User's email address.
+    """
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
 #allow users to edit the profile data 
 class ProfileEditForm(forms.ModelForm):
+    """
+    Form for users to edit their profile information.
+
+    Extends ModelForm for the Profile model and includes fields:
+    - date_of_birth: User's date of birth.
+    - phone_number: User's phone number.
+    - address: User's address.
+    """
     class Meta:
         model = Profile
         fields = ['date_of_birth', 'phone_number', 'address']
@@ -44,6 +84,17 @@ class ProfileEditForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    """
+    Form for users to update their profile information, including user data.
+
+    Extends ModelForm for the Profile model and includes additional fields:
+    - first_name: User's first name.
+    - last_name: User's last name.
+    - email: User's email address.
+    - address: User's address.
+
+    Provides initial values based on the existing user data and updates both User and Profile instances on save.
+    """
     first_name = forms.CharField(max_length=100, required=False)
     last_name = forms.CharField(max_length=100, required=False)
     email = forms.EmailField(required=False)
@@ -84,6 +135,15 @@ class ProfileUpdateForm(forms.ModelForm):
         return profile
 
 class AddressForm(forms.ModelForm):
+    """
+    Form for collecting and updating address information.
+
+    Extends ModelForm for the Address model and includes fields:
+    - street: Street address.
+    - city: City name.
+    - postal_code: Postal code.
+    - country: Country name.
+    """
     class Meta:
         model = Address
         fields = ['street', 'city', 'postal_code', 'country']

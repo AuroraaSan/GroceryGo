@@ -35,7 +35,12 @@
                             Search
                         </button>
                     </p>
-
+                    {% if not request.user.is_authenticated %}
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </div>
+                    {% endif %}
                 </div>
                 {% if request.user.is_authenticated %}
                         <div class="user-info">
@@ -54,7 +59,14 @@
                {% include 'search_form.html' %}
             </div>
         </div>
-
+        {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+        {% endif %}
     <div id="content" class="container-fluid">
       <div class="row">{% block content %}{% endblock %}</div>
     </div>

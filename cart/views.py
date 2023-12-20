@@ -4,6 +4,8 @@ from shop.models import Product
 from .cart import CartWrapper
 from .forms import CartAddProductForm
 from django.contrib import messages
+from coupons.forms import CouponApplyForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -44,8 +46,13 @@ def cart_remove(request, p_id):
     cart.remove(product)
     return redirect("cart:cart_detail")
 
-
+@login_required
 def cart_detail(request):
     user = request.user
     cart = CartWrapper(user)
-    return render(request, "cart/detail.html", {"cart": cart})
+    coupon_apply_form = CouponApplyForm()
+    return render(
+        request,
+        "cart/detail.html",
+        {"cart": cart, "coupon_apply_form": coupon_apply_form},
+    )

@@ -19,19 +19,21 @@ def order_create(request):
     if not cart:
         # Redirect the user to the cart view or display an error message
         return redirect("cart:cart_detail")
-    
+
     user_profile, created = Profile.objects.get_or_create(user=request.user)
     user_address = user_profile.address if not created else ""
     user_first_name = request.user.first_name
     user_last_name = request.user.last_name
     user_email = request.user.email
 
-
     if request.method == "POST":
         form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
+            if cart.coupon:
+                order.coupon = cart.coupon
+                order.discount = cart.coupon.discount
             order.save()
             for item in cart:
                 OrderItem.objects.create(
@@ -45,7 +47,16 @@ def order_create(request):
 
             return redirect("orders:order_created", order_id=order.id)
     else:
-        form = OrderCreateForm(initial={'user_address': user_address, 'first_name': user_first_name, 'last_name': user_last_name, 'email': user_email, 'address': user_address}, user=request.user)
+        form = OrderCreateForm(
+            initial={
+                "user_address": user_address,
+                "first_name": user_first_name,
+                "last_name": user_last_name,
+                "email": user_email,
+                "address": user_address,
+            },
+            user=request.user,
+        )
 
     return render(request, "orders/order/create.html", {"cart": cart, "form": form})
 

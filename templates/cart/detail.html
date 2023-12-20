@@ -60,6 +60,16 @@
 </table>
 </div>
   {% if cart|length > 0 %}
+  <p>Apply a coupon:</p>
+  <form action="{% url "coupons:apply" %}" method="post">
+  {{ coupon_apply_form }}
+  <input type="submit" value="Apply">
+  {% csrf_token %}
+  </form>
+  <form method="post" action="{% url 'coupons:remove' %}">
+    {% csrf_token %}
+    <input type="submit" value="Remove Coupon">
+  </form>
     <p class="text-right">
       <a href="{% url "shop:product_list" %}" class="btn btn-primary">Continue shopping</a>
       <a href="{% url "orders:order_create" %}" class="btn btn-success">Checkout</a>

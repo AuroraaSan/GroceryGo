@@ -1,57 +1,69 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, ProfileUpdateForm, AddressForm
+from .forms import (
+    LoginForm,
+    UserRegistrationForm,
+    UserEditForm,
+    ProfileEditForm,
+    ProfileUpdateForm,
+    AddressForm,
+)
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib import messages
 
+
 # Create your views here.
-#validation of user 
+# validation of user
 def user_login(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(request,
-                                username=cd['username'],
-                                password=cd['password'])
+            user = authenticate(
+                request, username=cd["username"], password=cd["password"]
+            )
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Authenticated successfully')
+                    return HttpResponse("Authenticated successfully")
                 else:
-                    return HttpResponse('Disabled account')
+                    return HttpResponse("Disabled account")
             else:
-                return HttpResponse('Invalid login')
+                return HttpResponse("Invalid login")
     else:
         form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
+    return render(request, "account/login.html", {"form": form})
 
 
 def register(request):
-    if request.method == 'POST':
+    #to prevent user from accessing the register page when logged in
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in.')
+        return redirect('shop:product_list')
+
+    if request.method == "POST":
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             # Create a new user object but avoid saving it yet
             new_user = user_form.save()
             # Set the chosen password
-            new_user.set_password(
-                user_form.cleaned_data['password'])
+            new_user.set_password(user_form.cleaned_data["password"])
             # Save the User object
             new_user.save()
             # Create the user profile
-            Profile.objects.create(user=new_user,
-                    phone_number = user_form.cleaned_data['phone_number'],
-                    address = user_form.cleaned_data['address'], date_of_birth=user_form.cleaned_data['date_of_birth'])
-            return render(request,
-                          'account/register_done.html',
-                          {'new_user': new_user})
+            Profile.objects.create(
+                user=new_user,
+                phone_number=user_form.cleaned_data["phone_number"],
+                address=user_form.cleaned_data["address"],
+                date_of_birth=user_form.cleaned_data["date_of_birth"],
+            )
+            return render(request, "account/register_done.html", {"new_user": new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request,
-                  'account/register.html',
-                  {'user_form': user_form})
+    return render(request, "account/register.html", {"user_form": user_form})
+
 
 @login_required
 def account_view(request):
@@ -65,40 +77,45 @@ def account_view(request):
         address = None
 
     context = {
-        'user': user,
-        'phone_number': phone_number,
-        'address': address,
+        "user": user,
+        "phone_number": phone_number,
+        "address": address,
     }
 
-    return render(request, 'account/account_details.html', context)
+    return render(request, "account/account_details.html", context)
+
 
 @login_required
 def update_profile(request):
-    user = request.user         
-    if hasattr(user, 'profile'):
+    user = request.user
+    if hasattr(user, "profile"):
         profile = user.profile
     else:
         profile = Profile.objects.create(user=user)
-    if request.method == 'POST':
+    if request.method == "POST":
         profile_form = ProfileUpdateForm(request.POST, instance=profile, user=user)
         if profile_form.is_valid():
             profile_form.save()
-            return redirect('account')
+            return redirect("account")
     else:
         profile_form = ProfileUpdateForm(instance=profile, user=user)
 
-    return render(request, 'account/profile_update.html', {'profile_form': profile_form})
+    return render(
+        request, "account/profile_update.html", {"profile_form": profile_form}
+    )
+
 
 @login_required
 def add_address(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         address_form = AddressForm(request.POST)
         if address_form.is_valid():
             new_address = address_form.save(commit=False)
-            new_address.profile = request.user.profile
+            user_profile = Profile.objects.get(user=request.user)
+            new_address.profile = user_profile
             new_address.save()
-            return redirect('account') 
+            return redirect("account")
     else:
         address_form = AddressForm()
 
-    return render(request, 'account/add_address.html', {'address_form': address_form})
+    return render(request, "account/add_address.html", {"address_form": address_form})

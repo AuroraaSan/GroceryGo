@@ -40,10 +40,11 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "cart.apps.CartConfig",
     "shop.apps.ShopConfig",
-    'orders.apps.OrdersConfig',
+    "orders.apps.OrdersConfig",
     "phonenumber_field",
-    'payment.apps.PaymentConfig',
-    'mathfilters',
+    "payment.apps.PaymentConfig",
+    "coupons.apps.CouponsConfig",
+    "mathfilters",
 ]
 
 MIDDLEWARE = [
@@ -70,7 +71,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "cart.context_processors.cart",
-                "shop.context_processors.search_form",               
+                "shop.context_processors.search_form",
             ],
         },
     },
@@ -88,7 +89,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 
 # Password validation
@@ -125,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 
@@ -142,15 +142,17 @@ LOGOUT_REDIRECT_URL = "login"
 LOGIN_URL = "login"
 # url to redirect the user to logout
 LOGOUT_URL = "logout"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+CART_SESSION_ID = "cart"
 #EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
+#MEDIA_URL = "media/"
+#MEDIA_ROOT = BASE_DIR / "media"
 CART_SESSION_ID = 'cart'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'djangooservice@gmail.com'
-EMAIL_HOST_PASSWORD = 'ehwx wtil tmot mzgj'
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+EMAIL_HOST_USER = "djangooservice@gmail.com"
+EMAIL_HOST_PASSWORD = "ehwx wtil tmot mzgj"
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"

@@ -14,9 +14,11 @@ class ProductAdmin(admin.ModelAdmin):
         "discount",
         "cat_id",
         "company_id",
+        "total_users_purchased",
+        "users_purchased_last_24_hours",
     ]
     raw_id_fields = ["cat", "company"]
-    list_filter = ["price", "purchased_gen", "purchased_24", "cat_id", "company_id"]
+    list_filter = ["price", "total_users_purchased", "users_purchased_last_24_hours", "cat_id", "company_id"]
 
 
 @admin.register(Category)

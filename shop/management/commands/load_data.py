@@ -44,7 +44,6 @@ class Command(BaseCommand):
                         category_name=category_1, defaults={"parent_cat": None}
                     )
                     parent_categories[category_1] = parent_category
-
                     self.stdout.write(
                         self.style.SUCCESS(
                             f"Successfully created parent category: {category_1}"
@@ -62,11 +61,11 @@ class Command(BaseCommand):
                 product_name = row.get("Name", "")
                 description = row.get("Description", "")
                 price = float(row.get("Price", 0.0))
-                stock = int(row.get("Stock", 0))
+                stock = int(row.get("Stock", 10))
                 discount = float(row.get("Discount", 0.0))
                 manufacture_date, expiry_date = generate_manufacturing_expiry_dates()
-                purchased_gen = int(row.get("PurchasedGen", 0))
-                purchased_24 = int(row.get("Purchased24", 0))
+                total_users_purchased = int(row.get("total_users_purchased", 0))
+                users_purchased_last_24_hours = int(row.get("users_purchased_last_24_hours", 0))
                 p_image = row.get("NewImage", "")
                 company_name = row.get("Brand", "")
                 if category_2 == "" or company_name == "" or category_1 == "":
@@ -104,8 +103,8 @@ class Command(BaseCommand):
                     discount=discount,
                     manfacture_date=manufacture_date,
                     expiry_date=expiry_date,
-                    purchased_gen=purchased_gen,
-                    purchased_24=purchased_24,
+                    total_users_purchased=total_users_purchased,
+                    users_purchased_last_24_hours=users_purchased_last_24_hours,
                     p_image=p_image,
                     company_id=company.company_id,
                     cat_id=child_category.cat_id,

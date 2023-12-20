@@ -12,6 +12,7 @@ class CartWrapper:
         Initialize the cart.
         """
         self.cart, created = Cart.objects.get_or_create(user=user)
+        self.coupon = self.cart.coupon
 
     def add(self, product, quantity=1, override_quantity=False):
         """
@@ -72,3 +73,17 @@ class CartWrapper:
     def clear(self):
         # remove cart from session
         CartItem.objects.filter(cart=self.cart).delete()
+
+    @property
+    def coupon_id(self):
+        return self.coupon.id if self.coupon else None
+
+    def get_discount(self):
+        if self.coupon:
+            return (Decimal(self.coupon.discount) / Decimal(100)) * Decimal(
+                self.get_total_price()
+            )
+        return Decimal(0)
+
+    def get_total_price_after_discount(self):
+        return Decimal(self.get_total_price()) - Decimal(self.get_discount())
