@@ -5,57 +5,85 @@ from cart.forms import CartAddProductForm
 from .models import Product, Category, Company
 from django.db.models import Q, Max, Count, F, Case, When, Sum
 from .forms import ProductFilterForm, ProductSearchForm
-from django.db import models  # Import the models module
+from django.db import models
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def product_list(request, category_name=None):
     category = None
     categories = Category.objects.all()
     products = Product.objects.all()
-    
+
     filter_form = ProductFilterForm(request.GET)
     search_form = ProductSearchForm(request.GET)
-    
+
     if category_name:
         category = get_object_or_404(Category, category_name=category_name)
         products = products.filter(Q(cat=category) | Q(cat__parent_cat=category))
 
     if search_form.is_valid():
-        search_query = search_form.cleaned_data.get('search_query')
-        search_category = search_form.cleaned_data.get('search_category')
+        search_query = search_form.cleaned_data.get("search_query")
+        search_category = search_form.cleaned_data.get("search_category")
 
-        if search_category == '1':
-            company_search_ids = list(Company.objects.filter(company_name__icontains=search_query).values_list('company_id', flat=True))
+        if search_category == "1":
+            company_search_ids = list(
+                Company.objects.filter(
+                    company_name__icontains=search_query
+                ).values_list("company_id", flat=True)
+            )
             products = products.filter(company_id__in=company_search_ids)
-        elif search_category == '2':
+        elif search_category == "2":
             products = products.filter(product_name__icontains=search_query)
 
     if filter_form.is_valid():
-        price_min=filter_form.cleaned_data.get('price_min')
-        price_max=filter_form.cleaned_data.get('price_max')
-        company=filter_form.cleaned_data.get('company')
-        nationality=filter_form.cleaned_data.get('nationality')
+        price_min = filter_form.cleaned_data.get("price_min")
+        price_max = filter_form.cleaned_data.get("price_max")
+        company = filter_form.cleaned_data.get("company")
+        nationality = filter_form.cleaned_data.get("nationality")
 
         if price_min is None:
             price_min = 0
-            
+
         if price_max is None:
-            price_max = products.aggregate(Max('price'))['price__max']
+            price_max = products.aggregate(Max("price"))["price__max"]
 
         products = products.filter(price__range=(price_min, price_max))
 
         if company:
             company_id = company.company_id
             products = products.filter(company_id=company_id)
-        
+
         if nationality:
-            company_ids = list(Company.objects.filter(nationality=nationality).values_list('company_id', flat=True))
+            company_ids = list(
+                Company.objects.filter(nationality=nationality).values_list(
+                    "company_id", flat=True
+                )
+            )
             products = products.filter(company_id__in=company_ids)
-            
+    # Pagination with 10 products per page
+    paginator = Paginator(products, 10)
+    page_number = request.GET.get("page", 1)
+
+    try:
+        products = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver the first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g., 9999), deliver the last page.
+        products = paginator.page(paginator.num_pages)
+
     return render(
         request,
         "shop/product/list.html",
-        {"category": category, "categories": categories, "products": products, "filter_form": filter_form, 'search_form': search_form,})
+        {
+            "category": category,
+            "categories": categories,
+            "products": products,
+            "filter_form": filter_form,
+            "search_form": search_form,
+        },
+    )
 
 
 def product_detail(request, id, slug):

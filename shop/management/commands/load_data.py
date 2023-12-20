@@ -4,6 +4,22 @@ from django.utils.text import slugify
 from django.utils import timezone
 from ...models import Product, Category, Company
 import os
+from faker import Faker
+import random
+from datetime import datetime, timedelta
+
+fake = Faker()
+
+
+def generate_manufacturing_expiry_dates():
+    # Generate a manufacturing date (within the last year)
+    manufacturing_date = fake.date_time_between(start_date="-1y", end_date="now")
+
+    # Generate an expiry date (manufacturing date + random duration)
+    expiry_duration = random.randint(30, 365)  # Random duration between 30 and 365 days
+    expiry_date = manufacturing_date + timedelta(days=expiry_duration)
+
+    return manufacturing_date, expiry_date
 
 
 class Command(BaseCommand):
@@ -48,10 +64,7 @@ class Command(BaseCommand):
                 price = float(row.get("Price", 0.0))
                 stock = int(row.get("Stock", 0))
                 discount = float(row.get("Discount", 0.0))
-                manufacture_date = (
-                    timezone.now()
-                )  # Replace with actual manufacture date logic
-                expiry_date = timezone.now()  # Replace with actual expiry date logic
+                manufacture_date, expiry_date = generate_manufacturing_expiry_dates()
                 purchased_gen = int(row.get("PurchasedGen", 0))
                 purchased_24 = int(row.get("Purchased24", 0))
                 p_image = row.get("NewImage", "")

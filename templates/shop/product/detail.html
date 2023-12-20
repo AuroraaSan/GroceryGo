@@ -10,7 +10,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <img class="img-fluid" style="height: 500px;" src="{% if product.p_image %}{{ product.p_image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ product.product_name }}">
+                <img class="img-fluid" style="height: 500px;" src="{% if product.p_image %}{{ product.p_image }}{% else %}{% static 'img/no_image.png' %}{% endif %}" alt="{{ product.product_name }}">
             </div>
             <div class="col-md-6">
                 <h1>{{ product.product_name }}</h1>
