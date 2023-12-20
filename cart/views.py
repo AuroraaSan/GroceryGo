@@ -3,6 +3,8 @@ from django.views.decorators.http import require_POST
 from shop.models import Product
 from .cart import CartWrapper
 from .forms import CartAddProductForm
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -21,7 +23,9 @@ def cart_add(request, p_id):
             quantity=cd["quantity"],
             override_quantity=cd["override"],
         )
-    return redirect("cart:cart_detail")
+    messages.success(request, f'{product.product_name} added to your cart successfully.')
+
+    return redirect("shop:product_list")
 
 
 @require_POST

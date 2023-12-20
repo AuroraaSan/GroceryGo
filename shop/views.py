@@ -7,6 +7,7 @@ from django.db.models import Q, Max, Count, F, Case, When, Sum
 from .forms import ProductFilterForm, ProductSearchForm
 from django.db import models
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from cart import forms as cart_forms
 
 
 def product_list(request, category_name=None):
@@ -16,6 +17,7 @@ def product_list(request, category_name=None):
 
     filter_form = ProductFilterForm(request.GET)
     search_form = ProductSearchForm(request.GET)
+    cart_form = cart_forms.CartAddProductForm(request.POST)
 
     if category_name:
         category = get_object_or_404(Category, category_name=category_name)
@@ -82,6 +84,7 @@ def product_list(request, category_name=None):
             "products": products,
             "filter_form": filter_form,
             "search_form": search_form,
+            "cart_product_form": cart_form,
         },
     )
 

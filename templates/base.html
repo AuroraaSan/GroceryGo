@@ -27,7 +27,7 @@
                             <a class="nav-link {% if 'shop' in request.path %}active{% endif %}" href="{% url "shop:product_list" %}">Products</a>
                             <a class="nav-link {% if 'order' in request.path %}active{% endif %}" href="#">Orders</a>
                             <a class="nav-link {% if 'cart' in request.path %}active{% endif %}" href="{% url "cart:cart_detail" %}">My Cart</a>
-                            <a class="nav-link {% if 'account' in request.path %}active{% endif %}" href="{% url "account_details" %}">Profile</a>
+                            <a class="nav-link {% if 'account' in request.path %}active{% endif %}" href="{% url "account" %}">Profile</a>
                     </div>
 
                     <p class="d-inline-flex" style="margin-top: 12px">

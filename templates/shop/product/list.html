@@ -7,6 +7,15 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+{% endif %}
+
 
 
     <div class="row">
@@ -39,7 +48,7 @@
                         <div class="card position-relative" style="height: 400px;">
                             {% if product.company.nationality == 'EGY' %}
 
-                            <div class="position-absolute top-0 end-0 translate-middle badge bg-primary egypt" style="margin-top: 9px; margin-right: -51px;  background-image: linear-gradient(to right, red, white, black);">
+                            <div class="position-absolute top-0 end-0 translate-middle badge bg-danger egypt" style="margin-top: 9px; margin-right: -51px;">
                                     <span class="text-stroke" style="color: white; -webkit-text-stroke: 0.5px black;">100% Egyptian</span>
                             </div>
                             {% endif %}
@@ -54,12 +63,15 @@
                                     {% else %}
                                     <p class="card-text">EGP {{ product.price }}</p>
                                     <a href="{{ product.get_absolute_url }}" class="btn btn-dark">View Details</a>
+                                    <form action="{% url 'cart:cart_add' product.p_id %}" method="post">
+                                            {{ cart_product_form.as_p }} {% csrf_token %}
+                                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                                    </form>
+
                                 {% endif %}
+                             
                             </div>
                         </div>
-
-
-
 
                     </div>
                 {% endfor %}
