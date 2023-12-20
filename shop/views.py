@@ -5,7 +5,7 @@ from cart.forms import CartAddProductForm
 from .models import Product, Category, Company
 from django.db.models import Q, Max, Count, F, Case, When, Sum
 from .forms import ProductFilterForm, ProductSearchForm
-from django.db import models
+from django.db import models  # Import the models module
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from cart import forms as cart_forms
 
