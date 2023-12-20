@@ -26,10 +26,8 @@ urlpatterns = [
     # path('account/', views.account_details, name='account_details'),
     path("home/", home, name="home"),
     path("admin/", admin.site.urls),
-    path("account/", include("account.urls")),
-    re_path(
-        r"^account/account/$", RedirectView.as_view(url="/account/", permanent=True)
-    ),
+    path('account/', include('account.urls')),
+    re_path(r'^account/account/$', RedirectView.as_view(url='/account/', permanent=True)),
     path("orders/", include("orders.urls", namespace="orders")),
     path("shop/", include("shop.urls", namespace="shop")),
     path("cart/", include("cart.urls", namespace="cart")),
