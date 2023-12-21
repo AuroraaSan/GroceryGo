@@ -22,15 +22,17 @@ from django.urls import path, include, re_path
 
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="http://127.0.0.1:8000/shop/", permanent=False)),
+    path("", RedirectView.as_view(url="/shop/", permanent=False)),
     # path('account/', views.account_details, name='account_details'),
     path("home/", home, name="home"),
     path("admin/", admin.site.urls),
-    path('account/', include('account.urls')),
-    re_path(r'^account/account/$', RedirectView.as_view(url='/account/', permanent=True)),
+    path("account/", include("account.urls")),
+    re_path(
+        r"^account/account/$", RedirectView.as_view(url="/account/", permanent=True)
+    ),
     path("orders/", include("orders.urls", namespace="orders")),
     path("shop/", include("shop.urls", namespace="shop")),
     path("cart/", include("cart.urls", namespace="cart")),
-    path('payment/', include('payment.urls', namespace='payment')),
+    path("payment/", include("payment.urls", namespace="payment")),
     path("coupons/", include("coupons.urls", namespace="coupons")),
 ]
