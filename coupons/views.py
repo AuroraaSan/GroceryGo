@@ -29,6 +29,10 @@ def coupon_apply(request):
 @require_POST
 def remove_coupon(request):
     cart = Cart.objects.get(user=request.user)
-    cart.coupon = None
-    cart.save()
+    if cart.coupon:
+        cart.coupon = None
+        cart.save()
+        messages.error(request, "The coupon has been removed")
+    else:
+        messages.error(request, "No coupon to remove")
     return redirect("cart:cart_detail")

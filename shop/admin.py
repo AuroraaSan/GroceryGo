@@ -18,12 +18,18 @@ class ProductAdmin(admin.ModelAdmin):
         "users_purchased_last_24_hours",
     ]
     raw_id_fields = ["cat", "company"]
-    list_filter = ["price", "total_users_purchased", "users_purchased_last_24_hours", "cat_id", "company_id"]
+    list_filter = [
+        "price",
+        "total_users_purchased",
+        "users_purchased_last_24_hours",
+        "cat_id",
+        "company_id",
+    ]
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["cat_id", "category_name", "parent_cat"]
+    list_display = ["cat_id", "category_name", "parent_cat", "product_count"]
     search_fields = ["category_name"]
 
 
