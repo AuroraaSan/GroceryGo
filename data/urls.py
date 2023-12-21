@@ -22,7 +22,7 @@ from django.urls import path, include, re_path
 
 
 urlpatterns = [
-    path("", RedirectView.as_view(url="/shop/", permanent=False)),
+    path("", include("shop.urls", namespace="shop")),
     # path('account/', views.account_details, name='account_details'),
     path("home/", home, name="home"),
     path("admin/", admin.site.urls),
@@ -31,7 +31,6 @@ urlpatterns = [
         r"^account/account/$", RedirectView.as_view(url="/account/", permanent=True)
     ),
     path("orders/", include("orders.urls", namespace="orders")),
-    path("shop/", include("shop.urls", namespace="shop")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("payment/", include("payment.urls", namespace="payment")),
     path("coupons/", include("coupons.urls", namespace="coupons")),
