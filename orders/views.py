@@ -13,7 +13,6 @@ from account.models import Profile
 from django.contrib.auth.models import User
 import os
 from django.contrib.auth.decorators import login_required
-
 def order_create(request):
     cart = CartWrapper(request.user)
 
@@ -43,12 +42,12 @@ def order_create(request):
             request.session['order_id'] = order.id
             # redirect for payment
             return redirect(reverse('payment:process'))
-        else:
-            form = OrderCreateForm(request.user)
+    else:
+        form = OrderCreateForm(request.user)
 
-    return render(request, "orders/order/create.html", {"cart": cart, "form": form,"user":request.user})
+    return render(request, "orders/order/create.html", {"cart": cart, "form": form, "user": request.user})
 
-
+        
 def order_created(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, "orders/order/created.html", {"order": order})
