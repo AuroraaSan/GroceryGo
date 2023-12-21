@@ -23,8 +23,6 @@ from django.urls import path, include, re_path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("shop.urls", namespace="shop")),
-    # path('account/', views.account_details, name='account_details'),
     path("home/", home, name="home"),
     path("account/", include("account.urls")),
     re_path(
@@ -34,4 +32,6 @@ urlpatterns = [
     path("cart/", include("cart.urls", namespace="cart")),
     path("payment/", include("payment.urls", namespace="payment")),
     path("coupons/", include("coupons.urls", namespace="coupons")),
+    path("", include("shop.urls", namespace="shop")),
+    # path('account/', views.account_details, name='account_details'),
 ]
