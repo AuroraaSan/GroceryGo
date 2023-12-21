@@ -36,7 +36,7 @@ def payment_process(request):
                     'unit_amount': int(item.price * Decimal('100')),
                     'currency': 'usd',
                     'product_data': {
-                        'name': item.product.name,
+                        'name': item.product.product_name,
                     },
                 },
                 'quantity': item.quantity,
