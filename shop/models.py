@@ -262,7 +262,7 @@ class Product(models.Model):
     )
     manfacture_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(null=False, blank=False)
-    p_image = models.ImageField(upload_to="products/", blank=True)
+    p_image = models.ImageField(max_length=255, upload_to="products/", blank=True)
     company = models.ForeignKey(
         Company, on_delete=models.SET_DEFAULT, null=True, default=1
     )
