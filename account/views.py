@@ -52,23 +52,22 @@ def register(request):
             new_user.set_password(user_form.cleaned_data["password"])
             # Save the User object
             new_user.save()
+                # Create the user profile
+            profile = Profile.objects.create(
+                user=new_user,
+                phone_number=user_form.cleaned_data["phone_number"],
+                date_of_birth=user_form.cleaned_data["date_of_birth"],
+            )
+            # Assign the address instance to the profile
+            profile.save()
             address = Address.objects.create(
+                profile=profile,
                 street=user_form.cleaned_data['street'],
                 city=user_form.cleaned_data['city'],
                 postal_code=user_form.cleaned_data['postal_code'],
                 country=user_form.cleaned_data['country'],
             )
             address.save()
-            # Create the user profile
-            profile = Profile.objects.create(
-                user=new_user,
-                phone_number=user_form.cleaned_data["phone_number"],
-                address = address,
-                date_of_birth=user_form.cleaned_data["date_of_birth"],
-                )
-            # Assign the address instance to the profile
-            profile.save()
-
             return render(request, "account/register_done.html", {"new_user": new_user})
     else:
         user_form = UserRegistrationForm()
@@ -81,7 +80,7 @@ def account_view(request):
     try:
         profile = Profile.objects.get(user=user)
         phone_number = profile.phone_number
-        address = profile.address
+        address = profile.addresses
     except Profile.DoesNotExist:
         phone_number = None
         address = None
@@ -120,10 +119,16 @@ def add_address(request):
     if request.method == "POST":
         address_form = AddressForm(request.POST)
         if address_form.is_valid():
-            new_address = address_form.save(commit=False)
+            cd = address_form.cleaned_data
             user_profile = Profile.objects.get(user=request.user)
-            new_address.profile = user_profile
-            new_address.save()
+            print(user_profile,type(user_profile))
+            Address.objects.create(
+                profile=user_profile,
+                street=cd["street"],
+                city=cd["city"],
+                postal_code=cd["postal_code"],
+                country=cd["country"],
+            )
             return redirect("account")
     else:
         address_form = AddressForm()

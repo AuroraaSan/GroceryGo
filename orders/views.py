@@ -12,17 +12,14 @@ from django.contrib.auth.models import User
 import os
 from django.contrib.auth.decorators import login_required
 
-
 def order_create(request):
     cart = CartWrapper(request.user)
-    form = OrderCreateForm(request.GET)
-    form.get_info(request)
-    # Check if the cart is empty
+
     if not cart:
-        # Redirect the user to the cart view or display an error message
         return redirect("cart:cart_detail")
+
     if request.method == "POST":
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
@@ -37,10 +34,10 @@ def order_create(request):
                     price=item["price"],
                     quantity=item["quantity"],
                 )
-            # clear the cart
             cart.clear()
-
             return redirect("orders:order_created", order_id=order.id)
+    else:
+        form = OrderCreateForm(request.user)
 
     return render(request, "orders/order/create.html", {"cart": cart, "form": form})
 
