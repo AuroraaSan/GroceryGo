@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from environs import Env
 import dj_database_url
-
+import os
 env = Env()
 env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -90,9 +90,8 @@ WSGI_APPLICATION = "data.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(default=os.getenv("HEROKU_POSTGRESQL_GREEN_URL")),
+    'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_GREEN_URL')),
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
