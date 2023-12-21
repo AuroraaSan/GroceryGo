@@ -21,8 +21,10 @@ def order_create(request):
     if request.method == "POST":
         form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             order = form.save(commit=False)
             order.user = request.user
+            order.address = form.cleaned_data["user_address"]
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
@@ -39,7 +41,7 @@ def order_create(request):
     else:
         form = OrderCreateForm(request.user)
 
-    return render(request, "orders/order/create.html", {"cart": cart, "form": form})
+    return render(request, "orders/order/create.html", {"cart": cart, "form": form,"user":request.user})
 
 
 def order_created(request, order_id):

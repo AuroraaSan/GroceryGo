@@ -80,7 +80,11 @@ def account_view(request):
     try:
         profile = Profile.objects.get(user=user)
         phone_number = profile.phone_number
-        address = profile.addresses
+        address = list(Address.objects.filter(profile=profile))
+        if len(address) == 0:
+            address = None
+        else:
+            address = list(Address.objects.filter(profile=profile))[0]
     except Profile.DoesNotExist:
         phone_number = None
         address = None

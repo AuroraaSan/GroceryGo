@@ -10,7 +10,7 @@ from account.models import Address
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, default=1)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
