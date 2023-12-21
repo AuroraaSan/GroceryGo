@@ -74,16 +74,7 @@ def admin_order_pdf(request, order_id):
     return response
 
 @login_required
-def all_user_orders(request):
+def user_orders(request):
     user = request.user
-    orders = Order.objects.all(user=user)
-    return render(request, "orders/order/orders.html", {"orders": orders, 'user':user})
-# @login_required
-# def all_user_orders(request):
-#     user = request.user
-#     orders = Order.objects.filter(user=user)  # Use filter() instead of all() for filtering
-#     return render(request, "orders/order/orders.html", {"orders": orders, 'user': user})
-
-@login_required
-def get_user(request):
-    pass
+    orders = Order.objects.filter(user=user)
+    return render(request, "orders/order/user_orders.html", {"orders": orders, 'user':user})

@@ -5,7 +5,7 @@
 
 {% block content %}
   <h1>Order summary</h1>
-  <table class="cart">
+  <table class="cart table table-striped">
     <thead>
       <tr>
         <th>Image</th>
@@ -19,18 +19,18 @@
       {% for item in order.items.all %}
         <tr class="row{% cycle "1" "2" %}">
           <td>
-            <img src="{% if item.product.image %}{{ item.product.image.url }}
+            <img style="max-height: 150px;" src="{% if item.product.p_image %}{{ item.product.p_image }}
             {% else %}{% static "img/" %}{% endif %}">
           </td>
-          <td>{{ item.product.name }}</td>
-          <td class="num">${{ item.price }}</td>
+          <td>{{ item.product.product_name }}</td>
+          <td class="num">EGP {{ item.price }}</td>
           <td class="num">{{ item.quantity }}</td>
           <td class="num">${{ item.get_cost }}</td>
         </tr>
       {% endfor %}
       <tr class="total">
         <td colspan="4">Total</td>
-        <td class="num">${{ cart.get_total_price }}</td>
+        <td class="num">EGP {{ cart.get_total_price }}</td>
       </tr>
     </tbody>
   </table>
