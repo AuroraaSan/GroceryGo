@@ -304,9 +304,9 @@ def update_category_product_count(sender, instance, **kwargs):
     if category:
         category.product_count = category.product_set.count()
         category.save()
+
+        # Update product count for parent category
         parent_category = category.parent_cat
-        while parent_category:
-            parent_category.product_count = parent_category.product_set.aggregate(
-                Sum("product_count")
-            )["product_count__sum"]
+        if parent_category:
+            parent_category.product_count = parent_category.category_set.aggregate(Sum('product_count'))['product_count__sum']
             parent_category.save()
