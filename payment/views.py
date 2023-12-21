@@ -14,7 +14,10 @@ stripe.api_version = settings.STRIPE_API_VERSION
 def payment_process(request):
     order_id = request.session.get('order_id', None)
     order = get_object_or_404(Order, id=order_id)
-
+    if order_id:
+        order = get_object_or_404(Order, id=order_id)
+        order.paid = True
+        order.save()
     if request.method == 'POST':
         success_url = request.build_absolute_uri(
                         reverse('payment:completed'))
@@ -34,7 +37,7 @@ def payment_process(request):
             session_data['line_items'].append({
                 'price_data': {
                     'unit_amount': int(item.price * Decimal('100')),
-                    'currency': 'usd',
+                    'currency': 'EGP',
                     'product_data': {
                         'name': item.product.product_name,
                     },

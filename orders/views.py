@@ -22,8 +22,11 @@ def order_create(request):
     if request.method == "POST":
         form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             order = form.save(commit=False)
+            if cart.coupon:
+                 order.coupon = cart.coupon
+                 order.discount = cart.coupon.discount
+                 order.save()
             order.user = request.user
             order.address = form.cleaned_data["user_address"]
             if cart.coupon:
