@@ -161,3 +161,10 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
 CRISPY_TEMPLATE_PACK = "bootstrap5"  # new
+
+
+
+# Stripe settings
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51OP7chEYjOhYVEjd9yD40w6ppRQnZH8YjPqa1ANitGZEbN2PT4CWsCpDdORoumsv6Fg8sIj5HkBYMPtUPdulb2eE00rzWttGPl' # Publishable key
+STRIPE_SECRET_KEY = 'sk_test_51OP7chEYjOhYVEjdhFFCOFNxQoqQ541CILkR8UuoeAXxxb7X8Y2YI3DcyEgkFYmo4E3nmcyJUbCS0QTYwRBnvaNI00kTcarRvl' # Secret key
+STRIPE_API_VERSION = '2022-08-01'
