@@ -40,14 +40,17 @@ class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Email'}))
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control','placeholder': 'Birth date'}))
     phone_number = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone number'}))
-    address = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Address'}))
+    street = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Street'}))
+    city = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City'}))
+    postal_code = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Postal Code'}))
+    country = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Country'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
     password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repeat Password'}))
 
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'phone_number', 'address']
+        fields = ['username', 'first_name', 'last_name', 'email', 'phone_number', 'street', 'city', 'postal_code', 'country']
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -79,7 +82,7 @@ class ProfileEditForm(forms.ModelForm):
     """
     class Meta:
         model = Profile
-        fields = ['date_of_birth', 'phone_number', 'address']
+        fields = ['date_of_birth', 'phone_number']
 
 
 

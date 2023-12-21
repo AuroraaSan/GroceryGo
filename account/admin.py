@@ -12,7 +12,7 @@ class ProfileAdmin(admin.ModelAdmin):
         list_display (list): display in the list view of profiles.
         raw_id_fields (list): Fields to be displayed as IDs.
     """
-    list_display = ['user', 'date_of_birth', 'phone_number', 'address']
+    list_display = ['user', 'date_of_birth', 'phone_number']
     raw_id_fields = ['user']
 
 @admin.register(Address)
@@ -27,6 +27,6 @@ class AddressAdmin(admin.ModelAdmin):
         search_fields (list): Fields to search for in the admin panel.
         list_filter (list): Fields for which filtering options will be available.
     """
-    list_display = ['profile', 'street', 'city', 'postal_code', 'country']
+    list_display = ['profile','street', 'city', 'postal_code', 'country']
     search_fields = ['profile__user__username', 'city']
     list_filter = ['country']
