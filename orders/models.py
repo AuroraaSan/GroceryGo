@@ -9,7 +9,7 @@ from account.models import Address
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -27,6 +27,9 @@ class Order(models.Model):
 
     def get_total_cost_before_discount(self):
         return sum(item.get_cost() for item in self.items.all())
+    
+    def get_total_items(self):
+        return self.items.aggregate(total_items=models.Sum('quantity'))['total_items'] or 0
 
     def get_discount(self):
         total_cost = self.get_total_cost_before_discount()
