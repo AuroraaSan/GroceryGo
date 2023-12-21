@@ -141,3 +141,12 @@ td {
     border-radius: 25px;
     padding: 30px;
 }
+
+.cart-submit-button {
+    font-size: 14px;
+    height: 40px;
+    /* Adjust the font size as needed */
+    padding: 5px 10px;
+    margin-top: 28px;
+    /* Adjust the padding as needed */
+}
