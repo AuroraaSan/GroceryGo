@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from environs import Env
+import dj_database_url
 
 env = Env()
 env.read_env()
@@ -88,8 +89,11 @@ WSGI_APPLICATION = "data.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
-
+DATABASES = {
+    "default": dj_database_url.config(
+        default="postgres://ylqkpezsoynplt:753a83c333de280f803f301acbbabc5db36185b7a23023c860272808a7a024ea@ec2-107-21-67-46.compute-1.amazonaws.com:5432/d9rtqf6qf99rnc"
+    )
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
