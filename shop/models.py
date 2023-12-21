@@ -253,7 +253,7 @@ class Company(models.Model):
 class Product(models.Model):
     p_id = models.BigAutoField(primary_key=True)
     product_name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.FloatField()
     stock = models.IntegerField(default=0)
