@@ -52,22 +52,21 @@ def register(request):
             new_user.set_password(user_form.cleaned_data["password"])
             # Save the User object
             new_user.save()
-            # Create the user profile
-            profile = Profile.objects.create(
-                user=new_user,
-                phone_number=user_form.cleaned_data["phone_number"],
-                #address=f"{user_form.cleaned_data['street']}, {user_form.cleaned_data['city']}, {user_form.cleaned_data['postal_code']}, {user_form.cleaned_data['country']}",
-                date_of_birth=user_form.cleaned_data["date_of_birth"],
-                )
             address = Address.objects.create(
                 street=user_form.cleaned_data['street'],
                 city=user_form.cleaned_data['city'],
                 postal_code=user_form.cleaned_data['postal_code'],
                 country=user_form.cleaned_data['country'],
             )
-
+            address.save()
+            # Create the user profile
+            profile = Profile.objects.create(
+                user=new_user,
+                phone_number=user_form.cleaned_data["phone_number"],
+                address = address,
+                date_of_birth=user_form.cleaned_data["date_of_birth"],
+                )
             # Assign the address instance to the profile
-            profile.address = address
             profile.save()
 
             return render(request, "account/register_done.html", {"new_user": new_user})

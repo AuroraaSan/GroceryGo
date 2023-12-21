@@ -21,7 +21,6 @@ def order_create(request):
     if not cart:
         # Redirect the user to the cart view or display an error message
         return redirect("cart:cart_detail")
-
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
         if form.is_valid():

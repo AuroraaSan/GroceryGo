@@ -82,7 +82,7 @@ class ProfileEditForm(forms.ModelForm):
     """
     class Meta:
         model = Profile
-        fields = ['date_of_birth', 'phone_number', 'address']
+        fields = ['date_of_birth', 'phone_number']
 
 
 
