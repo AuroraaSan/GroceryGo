@@ -12,7 +12,6 @@
   </head>
   <body>
         <nav class="navbar bg-dark navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
-
             <div class="container-fluid">
                 <img src="{% static 'logoo.png' %}" class="logo-img">
                 <a class="navbar-brand" style="font-size: 2em; font-family: Fasthand" href="{% url 'shop:product_list' %}">GroceryGo</a>
@@ -22,38 +21,39 @@
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
-
-                    <div class="navbar-nav">
-                            <a class="nav-link {% if 'shop' in request.path %}active{% endif %}" href="{% url "shop:product_list" %}">Products</a>
-                            <a class="nav-link {% if 'order' in request.path %}active{% endif %}" href="#">Orders</a>
-                            <a class="nav-link {% if 'cart' in request.path %}active{% endif %}" href="{% url "cart:cart_detail" %}">My Cart</a>
-                            <a class="nav-link {% if 'account' in request.path %}active{% endif %}" href="{% url "account" %}">Profile</a>
-                    </div>
-
                     <p class="d-inline-flex" style="margin-top: 12px">
                         <button class="btn btn-light search-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             Search
                         </button>
                     </p>
-                    {% if not request.user.is_authenticated %}
+                    <div class="navbar-nav">
+                            <a class="nav-link {% if 'shop' in request.path %}active{% endif %}" href="{% url "shop:product_list" %}">Products</a>
+                            <a class="nav-link {% if 'order' in request.path %}active{% endif %}" href="#">Orders</a>
+                            <a class="nav-link {% if 'cart' in request.path %}active{% endif %}" href="{% url "cart:cart_detail" %}">My Cart</a>
+                </div>
+                <div class="navbar-nav">
+                <div class="dropdown m-10">
+                    {% if user.is_authenticated %}
+                    <a href="#" class="nav-link d-block link-light text-decoration-none user-name dropdown-toggle"  id="dropdownUser1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Hello, {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" href="{% url 'account'%}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'password_change'%}">Change password</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
+                    </ul>
+                    {% else %}
                     <div class="navbar-nav mr-auto">
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
                         <a class="nav-link" href="{% url 'login' %}">Log In</a>
                     </div>
                     {% endif %}
                 </div>
-                {% if request.user.is_authenticated %}
-                        <div class="user-info">
-                            <span class="hello-message">Hello {{ request.user.first_name|default:request.user.username }},</span>
-                            <span class="logout-button">
-                                <a class="nav-link" href="{% url "logout" %}">Logout</a>
-                            </span>
-                        </div>
-                {% endif %}
+                </div>
+
             </div>
         </nav>
-            
-
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
                {% include 'search_form.html' %}
@@ -71,7 +71,8 @@
       <div class="row">{% block content %}{% endblock %}</div>
     </div>
 
-    <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.bundle.js" %}"></script>
+
     <script src="{% static "script.js" %}"></script>
   </body>
 </html>

@@ -34,20 +34,21 @@ nav.bg-dark {
     color: var(--light);
 }
 
-.hello-message 
-{
-    color: var(--light);
+.hello-message {
+    color: var(--dark);
     transition: color 0.3s ease-in-out;
 }
 
 /* Sets default font and font-color of p element to Roboto, and light  */
 p {
     font-family: 'Roboto', sans-serif;
-    color: var(--light);
+    color: var(--dark);
 }
 
-h1, h2, h3 {
-    color: var(--light)
+h1,
+h2,
+h3 {
+    color: var(--dark)
 }
 
 /* Sets card text color to dark */
@@ -98,10 +99,7 @@ h1, h2, h3 {
     --yellow: #d69e4a;
 }
 
-/* Sets the background color of the page to dark */
-body {
-    background-color: var(--dark) !important;
-}
+
 
 /* Sets the carousel size and fits the image inside the carosuel-item
 so as not to overflow the page */
@@ -123,16 +121,15 @@ so as not to overflow the page */
     color: var(--yellow)
 }
 
-th, td
-{
+th,
+td {
     color: var(--light);
 }
 
-.container
-{
+.container {
     margin-left: 0px;
     margin-right: 0px;
-    margin-top: 60px;
+    margin-top: 20px;
 }
 
 .logo-img {
@@ -147,4 +144,12 @@ th, td
 
 nav .paginator {
     background-color: var(--dark) !important;
+}
+.cart-submit-button {
+    font-size: 14px;
+    height: 40px;
+    /* Adjust the font size as needed */
+    padding: 5px 10px;
+    margin-top: 28px;
+    /* Adjust the padding as needed */
 }
