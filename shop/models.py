@@ -252,8 +252,8 @@ class Company(models.Model):
 
 class Product(models.Model):
     p_id = models.BigAutoField(primary_key=True)
-    product_name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, null=True, blank=True)
+    product_name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.FloatField()
     stock = models.IntegerField(default=0)
@@ -308,5 +308,7 @@ def update_category_product_count(sender, instance, **kwargs):
         # Update product count for parent category
         parent_category = category.parent_cat
         if parent_category:
-            parent_category.product_count = parent_category.category_set.aggregate(Sum('product_count'))['product_count__sum']
+            parent_category.product_count = parent_category.category_set.aggregate(
+                Sum("product_count")
+            )["product_count__sum"]
             parent_category.save()
