@@ -134,7 +134,7 @@ CSRF_COOKIE_SECURE = True
 
 # security.W012
 SESSION_COOKIE_SECURE = True
-f
+
 # security.W008
 SECURE_SSL_REDIRECT = True
 
