@@ -127,9 +127,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"] # new
-STATIC_ROOT = BASE_DIR / "staticfiles" # new
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage" 
+STATICFILES_DIRS = [BASE_DIR / "static"]  # new
+STATIC_ROOT = BASE_DIR / "staticfiles"  # new
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# security.W016
+CSRF_COOKIE_SECURE = True
+
+# security.W012
+SESSION_COOKIE_SECURE = True
+
+# security.W008
+SECURE_SSL_REDIRECT = True
+
+SECURE_HSTS_SECONDS = 31536000
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -163,8 +178,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
 CRISPY_TEMPLATE_PACK = "bootstrap5"  # new
 
 
-
 # Stripe settings
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51OP7chEYjOhYVEjd9yD40w6ppRQnZH8YjPqa1ANitGZEbN2PT4CWsCpDdORoumsv6Fg8sIj5HkBYMPtUPdulb2eE00rzWttGPl' # Publishable key
-STRIPE_SECRET_KEY = 'sk_test_51OP7chEYjOhYVEjdhFFCOFNxQoqQ541CILkR8UuoeAXxxb7X8Y2YI3DcyEgkFYmo4E3nmcyJUbCS0QTYwRBnvaNI00kTcarRvl' # Secret key
-STRIPE_API_VERSION = '2022-08-01'
+STRIPE_PUBLISHABLE_KEY = "pk_test_51OP7chEYjOhYVEjd9yD40w6ppRQnZH8YjPqa1ANitGZEbN2PT4CWsCpDdORoumsv6Fg8sIj5HkBYMPtUPdulb2eE00rzWttGPl"  # Publishable key
+STRIPE_SECRET_KEY = "sk_test_51OP7chEYjOhYVEjdhFFCOFNxQoqQ541CILkR8UuoeAXxxb7X8Y2YI3DcyEgkFYmo4E3nmcyJUbCS0QTYwRBnvaNI00kTcarRvl"  # Secret key
+STRIPE_API_VERSION = "2022-08-01"
