@@ -27,6 +27,6 @@ class AddressAdmin(admin.ModelAdmin):
         search_fields (list): Fields to search for in the admin panel.
         list_filter (list): Fields for which filtering options will be available.
     """
-    list_display = ['profile', 'street', 'city', 'postal_code', 'country']
+    list_display = ['street', 'city', 'postal_code', 'country']
     search_fields = ['profile__user__username', 'city']
     list_filter = ['country']

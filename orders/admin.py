@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Order, OrderItem
+from account.models import Address, Profile
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 
@@ -14,9 +15,36 @@ order_pdf.short_description = 'Invoice'
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name', 'email',
-                    'address', 'postal_code', 'city', 'paid',
-                    'created', 'updated', order_pdf]
+    list_display = ['id', 'user', 'user_first_name', 'user_last_name', 'user_email',
+                     'user_postal_code', 'user_city', 'paid',
+                    'created', 'updated', 'order_pdf']
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
+
+    def user_first_name(self, obj):
+        return obj.user.first_name
+
+    def user_last_name(self, obj):
+        return obj.user.last_name
+
+    def user_email(self, obj):
+        return obj.user.email
+
+    # def user_address(self, obj):
+    #     return obj.user.profile.address  
+
+    def user_postal_code(self, obj):
+        profile = Profile.objects.get(user=obj.user)
+        address = profile.address
+        return address.postal_code  
+
+    def user_city(self, obj):
+        profile = Profile.objects.get(user=obj.user)
+        address = profile.address
+        return address.city 
+     
+    def order_pdf(self, obj):
+        url = reverse('orders:admin_order_pdf', args=[obj.id])
+        return mark_safe(f'<a href="{url}">PDF</a>')
+
 

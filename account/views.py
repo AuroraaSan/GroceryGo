@@ -12,7 +12,7 @@ from .forms import (
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib import messages
-
+from .models import Address
 
 # Create your views here.
 # validation of user
@@ -53,12 +53,23 @@ def register(request):
             # Save the User object
             new_user.save()
             # Create the user profile
-            Profile.objects.create(
+            profile = Profile.objects.create(
                 user=new_user,
                 phone_number=user_form.cleaned_data["phone_number"],
-                address=user_form.cleaned_data["address"],
+                #address=f"{user_form.cleaned_data['street']}, {user_form.cleaned_data['city']}, {user_form.cleaned_data['postal_code']}, {user_form.cleaned_data['country']}",
                 date_of_birth=user_form.cleaned_data["date_of_birth"],
+                )
+            address = Address.objects.create(
+                street=user_form.cleaned_data['street'],
+                city=user_form.cleaned_data['city'],
+                postal_code=user_form.cleaned_data['postal_code'],
+                country=user_form.cleaned_data['country'],
             )
+
+            # Assign the address instance to the profile
+            profile.address = address
+            profile.save()
+
             return render(request, "account/register_done.html", {"new_user": new_user})
     else:
         user_form = UserRegistrationForm()
