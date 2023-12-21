@@ -29,7 +29,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -90,10 +90,9 @@ WSGI_APPLICATION = "data.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://ylqkpezsoynplt:753a83c333de280f803f301acbbabc5db36185b7a23023c860272808a7a024ea@ec2-107-21-67-46.compute-1.amazonaws.com:5432/d9rtqf6qf99rnc"
-    )
+    "default": dj_database_url.config(default=os.getenv("HEROKU_POSTGRESQL_GREEN_URL")),
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -134,14 +133,19 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # new
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 
-# security.W016
-CSRF_COOKIE_SECURE = True
+if DEBUG:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
+else:
+    # security.W016
+    CSRF_COOKIE_SECURE = True
 
-# security.W012
-SESSION_COOKIE_SECURE = True
+    # security.W012
+    SESSION_COOKIE_SECURE = True
 
-# security.W008
-SECURE_SSL_REDIRECT = True
+    # security.W008
+    SECURE_SSL_REDIRECT = True
 
 SECURE_HSTS_SECONDS = 31536000
 
