@@ -24,6 +24,9 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 
 ### Purchase Analytics
 - **Insightful Analytics:** The website provides valuable data on purchasing trends and consumer behavior like how many customers ordered the product in general and in the last 24 hours.
+  
+### Secure Online Payment with Stripe
+- **Stripe Payment Integration:** GroceryGo utilizes Stripe for secure, efficient online payment processing, enabling easy transactions with credit and debit cards.
 
 ## Technologies Used
 
