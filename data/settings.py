@@ -14,6 +14,7 @@ from pathlib import Path
 from environs import Env
 import dj_database_url
 import os
+
 env = Env()
 env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 # Application definition
@@ -90,7 +91,7 @@ WSGI_APPLICATION = "data.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('HEROKU_POSTGRESQL_GREEN_URL')),
+    "default": dj_database_url.config(default=os.getenv("HEROKU_POSTGRESQL_GREEN_URL")),
 }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -171,8 +172,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "djangooservice@gmail.com"
-EMAIL_HOST_PASSWORD = "ehwx wtil tmot mzgj"
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
@@ -180,8 +181,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"  # new
 
 
 # Stripe settings
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51OP7chEYjOhYVEjd9yD40w6ppRQnZH8YjPqa1ANitGZEbN2PT4CWsCpDdORoumsv6Fg8sIj5HkBYMPtUPdulb2eE00rzWttGPl' # Publishable key
-STRIPE_SECRET_KEY = 'sk_test_51OP7chEYjOhYVEjdhFFCOFNxQoqQ541CILkR8UuoeAXxxb7X8Y2YI3DcyEgkFYmo4E3nmcyJUbCS0QTYwRBnvaNI00kTcarRvl' # Secret key
-STRIPE_API_VERSION = '2022-08-01'
+STRIPE_PUBLISHABLE_KEY = env.str("STRIPE_PUBLISHABLE_KEY")  # Publishable key
+STRIPE_SECRET_KEY = env.str("STRIPE_SECRET_KEY")  # Secret key
+STRIPE_API_VERSION = env.str("STRIPE_API_VERSION")
 
-STRIPE_WEBHOOK_SECRET = 'whsec_001d49576c8807400993cccada6325d61403e7c701490ecf83cd054154ae1b82'
+STRIPE_WEBHOOK_SECRET = env.str("STRIPE_WEBHOOK_SECRET")
