@@ -42,7 +42,6 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 ![ER Diagram](https://github.com/AuroraaSan/GroceryGo/blob/main/static/img/ERD.png)
 
 
-
 ### Payment Processing
 - **Stripe:** Integrated Stripe for secure and efficient online payment processing. Stripe API is used for handling transactions, offering a seamless checkout experience for users.
 
@@ -55,3 +54,6 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 - **Arwa Zakaria Khaled Alorbany** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/arwazakaria20/))
 - **Mariam Ahmed Sheta** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/mariam-sheta-gogo/))
 - **Youssef Ashraf Elharty** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/youssefelharty/)https://www.linkedin.com/in/youssefelharty/)
+
+## Project Report
+[Report]([https://grocery-go-24-b1f88daa13b9.herokuapp.com/](https://github.com/AuroraaSan/GroceryGo/blob/main/GroceryGo%20report.pdf))
