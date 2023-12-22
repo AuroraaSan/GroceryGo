@@ -29,15 +29,21 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 
 ### Web Development
 - **Frontend:** The user interface is built using HTML and CSS, providing a responsive and visually appealing design that enhances user experience.
-- **Backend:** The application logic is powered by Django, a high-level Python web framework that encourages rapid development and clean design.
+- **Backend:** The application logic is powered by Django, a high-level Python web framework that encourages rapid development and clean, pragmatic design.
 
 ### Database Integration
-- **Relational Database:** SQLite, a lightweight and efficient database engine, is used for storing and managing data.
-- **Django ORM:** Django's Object-Relational Mapping (ORM) framework is utilized for seamless and efficient interactions with the database.
+- **Initial Database:** The project initially used SQLite, a lightweight and efficient database engine perfect for development and testing.
+- **Current Database:** Migrated to PostgreSQL for its scalability, and advanced features, better suited for managing larger datasets and ensuring improved performance in production environments.
+
+### Payment Processing
+- **Stripe:** Integrated Stripe for secure and efficient online payment processing. Stripe API is used for handling transactions, offering a seamless checkout experience for users.
+
+### Hosting and Deployment
+- **Heroku:** The application is deployed on Heroku, a cloud platform service that enables easy scaling and maintenance of web applications. Heroku’s support for containerization and integration with GitHub provides a streamlined deployment process.
   
 ## Contributors
 
-- **Ahmed Haggag**
-- **Arwa Zakaria Khaled Alorbany**
-- **Mariam Ahmed Sheta**
-- **Youssef Ashraf Elharty**
+- **Ahmed Haggag** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/ahmed-hagag-28698514b/))
+- **Arwa Zakaria Khaled Alorbany** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/arwazakaria20/))
+- **Mariam Ahmed Sheta** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/mariam-sheta-gogo/))
+- **Youssef Ashraf Elharty** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/youssefelharty/)https://www.linkedin.com/in/youssefelharty/)
