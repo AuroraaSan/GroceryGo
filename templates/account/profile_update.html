@@ -1,45 +1,39 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}Update Profile{% endblock %}
-
-{% block content %}
-    <h2>Update Profile</h2>
-    <form method="post">
-        {% csrf_token %}
-        
-        <div>
-            <label for="id_first_name">First Name:</label>
-            {{ profile_form.first_name }}
+{% extends "base.html" %} {% load crispy_forms_tags %} {% load static %} {% block title %}Update Profile{% endblock %} {% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card" style="width: 80rem; border: 3px solid #0a6732;">
+        <div class="card-body">
+            <h1 class="text-center mb-4" style="color:#0a6732;">Update Profile</h1>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                <div class="form-group lead" style="font-weight: bold">
+                    <label for="id_first_name">First Name:</label>
+                    <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ profile_form.first_name.value }}">
+                </div>
+                <div class="form-group lead" style="font-weight: bold">
+                    <label for="id_last_name">Last Name:</label>
+                    <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ profile_form.last_name.value }}">
+                </div>
+                <div class="form-group lead" style="font-weight: bold">
+                    <label for="id_email">Email:</label>
+                    <input type="email" class="form-control" id="id_email" name="email" value="{{ profile_form.email.value }}">
+                </div>
+                <div class="form-group lead" style="font-weight: bold">
+                    <label for="id_phone_number">Phone Number:</label>
+                    <input type="text" class="form-control" id="id_phone_number" name="phone_number" value="{{ profile_form.phone_number.value }}">
+                </div>
+                <div class="form-group lead" style="font-weight: bold">
+                    <label for="id_birth_date">Date of Birth:</label>
+                    <input type="date" class="form-control" id="id_birth_date" name="birth_date" value="{{ profile_form.birth_date.value }}">
+                </div>
+                <div class="form-group lead" style="font-weight: bold">
+                    <label for="id_address">Address:</label>
+                    <input type="text" class="form-control" id="id_address" name="address" value="{{ profile_form.address.value }}">
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success py-1 px-4">Update Profile</button>
+                </div>
+            </form>
         </div>
-
-        <div>
-            <label for="id_last_name">Last Name:</label>
-            {{ profile_form.last_name }}
-        </div>
-
-        <div>
-            <label for="id_email">Email:</label>
-            {{ profile_form.email }}
-        </div>
-
-        <div>
-            <label for="id_date_of_birth">Date of Birth:</label>
-            {{ profile_form.date_of_birth }}
-            <b style=" font-weight: bold; font-size: small;">Format: YYYY-MM-DD</b>
-        </div>
-
-        <div>
-            <label for="id_phone_number">Phone Number:</label>
-            {{ profile_form.phone_number }}
-        </div>
-        <div>
-            <label for="id_address">Default Address:</label>
-            {{ profile_form.address }}
-            <a href="{% url 'add_address' %}" style="margin-left: 4px; font-weight: bold; font-size: small;">Add another Address</a>
-        </div>
-
-        <button type="submit">Update</button>
-    </form>
-    <a href="{% url 'shop:product_list' %}">Back to Home</a>
+    </div>
+</div>
 {% endblock %}

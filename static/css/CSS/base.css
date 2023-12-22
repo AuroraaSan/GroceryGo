@@ -1,4 +1,5 @@
 /* sets default background color of the navbar to light and adds a border to it */
+
 nav {
     background-color: var(--light) !important;
     border-bottom: 2px solid var(--dark);
@@ -9,7 +10,9 @@ nav {
     transition: color 0.3s ease-in-out;
 }
 
+
 /* Styles the navbar items */
+
 .nav-link {
     font-family: arial;
     font-weight: 400;
@@ -18,18 +21,24 @@ nav {
     transition: color 0.3s ease-in-out;
 }
 
+
 /* When hovering over a navbar item it is highlighted to blue */
+
 .nav-link:hover {
     color: var(--blue) !important;
 }
 
+
 /* Dark navbar class that changes the background color to dark and adds border to it */
+
 nav.bg-dark {
     border-bottom: 1px solid var(--light);
     background-color: var(--dark) !important;
 }
 
+
 /* When navbar is switched to dark, this overwrites the font-color porperty of the light navbar*/
+
 .bg-dark .nav-link {
     color: var(--light);
 }
@@ -39,7 +48,9 @@ nav.bg-dark {
     transition: color 0.3s ease-in-out;
 }
 
+
 /* Sets default font and font-color of p element to Roboto, and light  */
+
 p {
     font-family: 'Roboto', sans-serif;
     color: var(--dark);
@@ -51,13 +62,17 @@ h3 {
     color: var(--dark)
 }
 
+
 /* Sets card text color to dark */
+
 .card-text {
     font-size: 1.5em;
     color: var(--blue)
 }
 
+
 /* centers content */
+
 .centered {
     text-align: center;
 }
@@ -67,7 +82,9 @@ h3 {
     justify-content: center;
 }
 
+
 /* Defines the size of the card */
+
 .card {
     max-width: 40rem;
     margin: auto;
@@ -75,13 +92,17 @@ h3 {
     margin-top: 30px;
 }
 
+
 /* Adds a border to the images in the cards in projects page */
+
 .card img {
     border-bottom: 2px solid var(--dark);
 }
 
+
 /* Changes the active page text in navbar to yellow
 (!important) was used to overwrite the nav-link color property */
+
 .active {
     color: var(--light) !important;
 }
@@ -90,9 +111,10 @@ h3 {
     color: var(--yellow) !important;
 }
 
-/* Assigning color variables to be used as a color palette */
-:root {
 
+/* Assigning color variables to be used as a color palette */
+
+:root {
     --dark: #333337;
     --light: #fefcfa;
     --blue: #309291;
@@ -100,9 +122,9 @@ h3 {
 }
 
 
-
 /* Sets the carousel size and fits the image inside the carosuel-item
 so as not to overflow the page */
+
 .carousel .carousel-item {
     height: 500px;
 }
@@ -112,7 +134,9 @@ so as not to overflow the page */
     max-height: 100%;
 }
 
+
 /* Alternates the color of the text in the puns page */
+
 #punsList li:nth-child(even) {
     color: var(--blue);
 }
@@ -145,6 +169,7 @@ td {
 nav .paginator {
     background-color: var(--dark) !important;
 }
+
 .cart-submit-button {
     font-size: 14px;
     height: 40px;
@@ -152,4 +177,31 @@ nav .paginator {
     padding: 5px 10px;
     margin-top: 28px;
     /* Adjust the padding as needed */
+}
+
+.account-details {
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.account-details h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.account-details p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.account-details p strong {
+    color: #000;
 }
