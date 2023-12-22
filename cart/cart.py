@@ -63,7 +63,7 @@ class CartWrapper:
             )["total_quantity"]
             or 0
         )
-
+    
     def get_total_price(self):
         return sum(
             cart_item.total_price()

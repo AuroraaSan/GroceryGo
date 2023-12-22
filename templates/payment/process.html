@@ -5,36 +5,60 @@
 
 {% block content %}
   <h1>Order summary</h1>
-  <table class="cart">
+  <table class="cart table table-striped">
     <thead>
       <tr>
         <th>Image</th>
         <th>Product</th>
-        <th>Price</th>
         <th>Quantity</th>
+        <th>Price</th>
         <th>Total</th>
       </tr>
     </thead>
     <tbody>
       {% for item in order.items.all %}
-        <tr class="row{% cycle "1" "2" %}">
+        <tr>
           <td>
-            <img src="{% if item.product.image %}{{ item.product.image.url }}
-            {% else %}{% static "img/" %}{% endif %}">
+            <a href="{{ item.product.get_absolute_url }}">
+              <img style="max-height: 100px;" src="{% if item.product.p_image %}{{ item.product.p_image }}
+              {% else %}{% static "img/no_image.png" %}{% endif %}">
+            </a>
           </td>
-          <td>{{ item.product.name }}</td>
-          <td class="num">${{ item.price }}</td>
+          <td>{{ item.product.product_name }}</td>
           <td class="num">{{ item.quantity }}</td>
-          <td class="num">${{ item.get_cost }}</td>
+          <td class="num">EGP {{ item.price | floatformat }}</td>
+          <td class="num">EGP {{ item.total_price | floatformat }}</td>
         </tr>
       {% endfor %}
+      {% if order.coupon %}
+        <tr class="subtotal">
+          <td>Subtotal</td>
+          <td colspan="3"></td>
+          <td class="num">
+            ${{ order.get_total_cost_before_discount|floatformat:2 }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            "{{ order.coupon.code }}" coupon
+            ({{ order.discount }}% off)
+          </td>
+          <td colspan="3"></td>
+          <td class="num neg">
+            - ${{ order.get_discount|floatformat:2 }}
+          </td>
+        </tr>
+      {% endif %}
       <tr class="total">
-        <td colspan="4">Total</td>
-        <td class="num">${{ cart.get_total_price }}</td>
+        <td>Total</td>
+        <td colspan="3"></td>
+        <td class="num">
+          ${{ cart.get_total_price|floatformat:2 }}
+        </td>
       </tr>
     </tbody>
   </table>
-  <form action="{% url "payment:process" %}" method="post">
+  <form action="{% url 'payment:process' %}" method="post">
     <input type="submit" value="Pay now">
     {% csrf_token %}
   </form>

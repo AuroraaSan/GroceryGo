@@ -22,8 +22,11 @@ def order_create(request):
     if request.method == "POST":
         form = OrderCreateForm(request.user, request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             order = form.save(commit=False)
+            if cart.coupon:
+                 order.coupon = cart.coupon
+                 order.discount = cart.coupon.discount
+                 order.save()
             order.user = request.user
             order.address = form.cleaned_data["user_address"]
             if cart.coupon:
@@ -74,16 +77,7 @@ def admin_order_pdf(request, order_id):
     return response
 
 @login_required
-def all_user_orders(request):
+def user_orders(request):
     user = request.user
-    orders = Order.objects.all(user=user)
-    return render(request, "orders/order/orders.html", {"orders": orders, 'user':user})
-# @login_required
-# def all_user_orders(request):
-#     user = request.user
-#     orders = Order.objects.filter(user=user)  # Use filter() instead of all() for filtering
-#     return render(request, "orders/order/orders.html", {"orders": orders, 'user': user})
-
-@login_required
-def get_user(request):
-    pass
+    orders = Order.objects.filter(user=user)
+    return render(request, "orders/order/user_orders.html", {"orders": orders, 'user':user})
