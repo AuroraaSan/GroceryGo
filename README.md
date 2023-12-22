@@ -38,7 +38,8 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 - **Initial Database:** The project initially used SQLite, a lightweight and efficient database engine perfect for development and testing.
 - **Current Database:** Migrated to PostgreSQL for its scalability, and advanced features, better suited for managing larger datasets and ensuring improved performance in production environments.
 
-![ERD Diagram]([https://example.com/path/to/image.png](https://github.com/AuroraaSan/GroceryGo/blob/main/static/img/ERD.png))
+## ERD for database
+![ERD Diagram]([https://example.com/path/to/image.png](https://github.com/AuroraaSan/GroceryGo/blob/main/static/img/ERD.png)
 
 
 
