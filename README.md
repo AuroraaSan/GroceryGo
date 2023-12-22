@@ -34,8 +34,10 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 ### Database Integration
 - **Relational Database:** SQLite, a lightweight and efficient database engine, is used for storing and managing data.
 - **Django ORM:** Django's Object-Relational Mapping (ORM) framework is utilized for seamless and efficient interactions with the database.
-##Contributors:
-- **Ahmed Haggag
-- **Arwa Zakaria Alorbany
-- **Mariam Ahmed Sheta
-- **Youssef Ashraf Elharty
+  
+## Contributors
+
+- **Ahmed Haggag**
+- **Arwa Zakaria Khaled Alorbany**
+- **Mariam Ahmed Sheta**
+- **Youssef Ashraf Elharty**
