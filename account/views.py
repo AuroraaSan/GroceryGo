@@ -14,6 +14,7 @@ from .models import Profile
 from django.contrib import messages
 from .models import Address
 
+
 # Create your views here.
 # validation of user
 def user_login(request):
@@ -38,10 +39,10 @@ def user_login(request):
 
 
 def register(request):
-    #to prevent user from accessing the register page when logged in
+    # to prevent user from accessing the register page when logged in
     if request.user.is_authenticated:
-        messages.info(request, 'You are already logged in.')
-        return redirect('shop:product_list')
+        messages.info(request, "You are already logged in.")
+        return redirect("shop:product_list")
 
     if request.method == "POST":
         user_form = UserRegistrationForm(request.POST)
@@ -52,7 +53,7 @@ def register(request):
             new_user.set_password(user_form.cleaned_data["password"])
             # Save the User object
             new_user.save()
-                # Create the user profile
+            # Create the user profile
             profile = Profile.objects.create(
                 user=new_user,
                 phone_number=user_form.cleaned_data["phone_number"],
@@ -62,10 +63,10 @@ def register(request):
             profile.save()
             address = Address.objects.create(
                 profile=profile,
-                street=user_form.cleaned_data['street'],
-                city=user_form.cleaned_data['city'],
-                postal_code=user_form.cleaned_data['postal_code'],
-                country=user_form.cleaned_data['country'],
+                street=user_form.cleaned_data["street"],
+                city=user_form.cleaned_data["city"],
+                postal_code=user_form.cleaned_data["postal_code"],
+                country=user_form.cleaned_data["country"],
             )
             address.save()
             return render(request, "account/register_done.html", {"new_user": new_user})
@@ -125,7 +126,7 @@ def add_address(request):
         if address_form.is_valid():
             cd = address_form.cleaned_data
             user_profile = Profile.objects.get(user=request.user)
-            print(user_profile,type(user_profile))
+            print(user_profile, type(user_profile))
             Address.objects.create(
                 profile=user_profile,
                 street=cd["street"],

@@ -224,7 +224,7 @@ class Company(models.Model):
         ("UKR", "Ukraine"),
         ("ARE", "United Arab Emirates"),
         ("GBR", "United Kingdom"),
-        ("USA", "United States"),
+        ("USA", "United States of America"),
         ("URY", "Uruguay"),
         ("UZB", "Uzbekistan"),
         ("VUT", "Vanuatu"),
