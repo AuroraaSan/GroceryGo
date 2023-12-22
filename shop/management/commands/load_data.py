@@ -65,9 +65,12 @@ class Command(BaseCommand):
                 discount = float(row.get("Discount", 0.0))
                 manufacture_date, expiry_date = generate_manufacturing_expiry_dates()
                 total_users_purchased = int(row.get("total_users_purchased", 0))
-                users_purchased_last_24_hours = int(row.get("users_purchased_last_24_hours", 0))
+                users_purchased_last_24_hours = int(
+                    row.get("users_purchased_last_24_hours", 0)
+                )
                 p_image = row.get("NewImage", "")
                 company_name = row.get("Brand", "")
+                nationality = row.get("Origin", "EGY")
                 if category_2 == "" or company_name == "" or category_1 == "":
                     continue
                 # Get the parent category instance
@@ -85,7 +88,7 @@ class Command(BaseCommand):
                         "description": "",
                         "contact_num": "",
                         "email": "",
-                        "nationality": "EGY",
+                        "nationality": nationality,
                     },
                 )
                 if category_2 == "":
