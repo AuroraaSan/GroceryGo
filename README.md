@@ -39,7 +39,7 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
 - **Current Database:** Migrated to PostgreSQL for its scalability, and advanced features, better suited for managing larger datasets and ensuring improved performance in production environments.
 
 ## ERD for database
-![ERD Diagram](https://github.com/AuroraaSan/GroceryGo/blob/main/static/img/ERD.png])
+![ER Diagram](https://github.com/AuroraaSan/GroceryGo/blob/main/ERD.png)
 
 
 
