@@ -26,7 +26,7 @@ class Command(BaseCommand):
     help = "Load data from CSV into Django models"
 
     def handle(self, *args, **options):
-        csv_file_path = os.path.join(os.path.dirname(__file__), "products_updated.csv")
+        csv_file_path = os.path.join(os.path.dirname(__file__), "products.csv")
 
         with open(csv_file_path, mode="r", encoding="utf-8") as file:
             reader = csv.DictReader(file)
