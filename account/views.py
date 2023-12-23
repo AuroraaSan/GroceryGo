@@ -111,6 +111,7 @@ def update_profile(request):
     if request.method == "POST":
         profile_form = ProfileUpdateForm(request.POST, instance=profile, user=user)
         if profile_form.is_valid():
+            print(profile_form.cleaned_data["date_of_birth"])
             profile_form.save()
             return redirect("account")
     else:
