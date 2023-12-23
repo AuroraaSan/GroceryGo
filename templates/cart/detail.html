@@ -61,7 +61,7 @@ Your shopping cart
               </td>
               <td colspan="4"></td>
               <td class="num neg">
-                - ${{ cart.get_discount|floatformat:2 }}
+                - EGP {{ cart.get_discount|floatformat:2 }}
               </td>
             </tr>
           {% endif %}
@@ -69,7 +69,7 @@ Your shopping cart
             <td>Total</td>
             <td colspan="4"></td>
             <td class="num">
-              ${{ cart.get_total_price_after_discount|floatformat:2 }}
+              EGP {{ cart.get_total_price_after_discount|floatformat:2 }}
             </td>
           </tr>
       </tbody>
