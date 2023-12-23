@@ -81,6 +81,7 @@ def account_view(request):
     try:
         profile = Profile.objects.get(user=user)
         phone_number = profile.phone_number
+        date_of_birth = profile.date_of_birth
         address = list(Address.objects.filter(profile=profile))
         if len(address) == 0:
             address = None
@@ -92,7 +93,7 @@ def account_view(request):
 
     context = {
         "user": user,
-        "birth_day": profile.date_of_birth,
+        "date_of_birth": date_of_birth,
         "phone_number": phone_number,
         "address": address,
     }
