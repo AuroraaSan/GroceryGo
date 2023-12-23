@@ -92,6 +92,7 @@ def account_view(request):
 
     context = {
         "user": user,
+        "birth_day": profile.birth_date,
         "phone_number": phone_number,
         "address": address,
     }
