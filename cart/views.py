@@ -1,17 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_POST, require_login
+from django.views.decorators.http import require_POST, login_required
 from shop.models import Product
 from .cart import CartWrapper
 from .forms import CartAddProductForm
 from django.contrib import messages
 from coupons.forms import CouponApplyForm
-from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
 
-@require_login
+@login_required
 @require_POST
 def cart_add(request, p_id):
     user = request.user
@@ -45,7 +44,7 @@ def cart_add(request, p_id):
     return redirect("shop:product_list")
 
 
-@require_login
+@login_required
 @require_POST
 def cart_remove(request, p_id):
     user = request.user
