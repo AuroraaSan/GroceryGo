@@ -89,7 +89,8 @@ WSGI_APPLICATION = "data.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
+# DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
+DATABASES = {"default": env.dj_db_url('sqlite:///db.sqlite3')}
 
 
 # Password validation
