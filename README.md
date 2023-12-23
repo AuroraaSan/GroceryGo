@@ -50,7 +50,7 @@ Visit the live version of GroceryGo: [GroceryGo Live Website](https://grocery-go
   
 ## Contributors
 
-- **Ahmed Haggag** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/ahmed-hagag-28698514b/))
-- **Arwa Zakaria Khaled Alorbany** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/arwazakaria20/))
-- **Mariam Ahmed Sheta** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/mariam-sheta-gogo/))
-- **Youssef Ashraf Elharty** [LinkedIn Profile]([https://www.linkedin.com/in/arwa-alorbany/](https://www.linkedin.com/in/youssefelharty/)https://www.linkedin.com/in/youssefelharty/)
+- **Ahmed Haggag**
+- **Arwa Zakaria Khaled Alorbany** 
+- **Mariam Ahmed Sheta** 
+- **Youssef Ashraf Elharty**
