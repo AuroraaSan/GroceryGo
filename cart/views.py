@@ -52,6 +52,7 @@ def cart_remove(request, p_id):
     cart = CartWrapper(user)
     product = get_object_or_404(Product, p_id=p_id)
     cart.remove(product)
+    product.stock += 1
     return redirect("cart:cart_detail")
 
 
