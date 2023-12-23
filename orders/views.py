@@ -8,11 +8,14 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from account.models import Profile
 from django.contrib.auth.models import User
 import os
 from django.contrib.auth.decorators import login_required
+
+
 def order_create(request):
     cart = CartWrapper(request.user)
 
@@ -24,9 +27,9 @@ def order_create(request):
         if form.is_valid():
             order = form.save(commit=False)
             if cart.coupon:
-                 order.coupon = cart.coupon
-                 order.discount = cart.coupon.discount
-                 order.save()
+                order.coupon = cart.coupon
+                order.discount = cart.coupon.discount
+                order.save()
             order.user = request.user
             order.address = form.cleaned_data["user_address"]
             if cart.coupon:
@@ -42,15 +45,22 @@ def order_create(request):
                 )
             cart.clear()
             # set the order in the session
-            request.session['order_id'] = order.id
+            request.session["order_id"] = order.id
             # redirect for payment
-            return redirect(reverse('payment:process'))
+            return redirect(reverse("payment:process"))
+        else:
+            messages.error(request, "There was an error with your order.")
+            return redirect("cart:cart_detail")
     else:
         form = OrderCreateForm(request.user)
 
-    return render(request, "orders/order/create.html", {"cart": cart, "form": form, "user": request.user})
+    return render(
+        request,
+        "orders/order/create.html",
+        {"cart": cart, "form": form, "user": request.user},
+    )
 
-        
+
 def order_created(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     return render(request, "orders/order/created.html", {"order": order})
@@ -76,8 +86,11 @@ def admin_order_pdf(request, order_id):
     )
     return response
 
+
 @login_required
 def user_orders(request):
     user = request.user
     orders = Order.objects.filter(user=user)
-    return render(request, "orders/order/user_orders.html", {"orders": orders, 'user':user})
+    return render(
+        request, "orders/order/user_orders.html", {"orders": orders, "user": user}
+    )

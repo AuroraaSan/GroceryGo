@@ -169,7 +169,6 @@ class ProfileUpdateForm(forms.ModelForm):
     - first_name: User's first name.
     - last_name: User's last name.
     - email: User's email address.
-    - address: User's address.
 
     Provides initial values based on the existing user data and updates both User and Profile instances on save.
     """
@@ -198,9 +197,6 @@ class ProfileUpdateForm(forms.ModelForm):
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
         user.email = self.cleaned_data["email"]
-
-        # Update the address field in the profile
-        profile.address = self.cleaned_data["address"]
 
         if commit:
             user.save()
