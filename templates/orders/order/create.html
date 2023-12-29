@@ -28,10 +28,23 @@
           <td>EGP {{ item.total_price }}</td>
         </tr>
       {% endfor %}
+
     </tbody>
   </table>
+        </div>
+    <li>Total order before discount: EGP {{ cart.get_total_price|floatformat:2 }}</li>
+  </div>
+  <div>
+        {% if cart.coupon %}
+        <li>
+        "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
+        <span class="neg">- EGP{{ cart.get_discount|floatformat:2 }}</span>
+        </li>
+      {% endif %}
+      </div>
+
 </div>
-    <p>Total order: EGP {{ cart.get_total_price }}</p>
+    <li>Total order: EGP {{ cart.get_total_price_after_discount|floatformat:2 }}</li>
   </div>
   <h4>First Name: {{user.first_name}}</h4>
   <h4>Last Name:   {{user.last_name}}</h4>

@@ -15,6 +15,12 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
     purchase_timestamp = models.DateTimeField(default=timezone.now)
+    coupon = models.ForeignKey(
+        Coupon, related_name="orders", null=True, blank=True, on_delete=models.SET_NULL
+    )
+    discount = models.IntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
 
     class Meta:
         ordering = ["-created"]
@@ -27,9 +33,11 @@ class Order(models.Model):
 
     def get_total_cost_before_discount(self):
         return sum(item.get_cost() for item in self.items.all())
-    
+
     def get_total_items(self):
-        return self.items.aggregate(total_items=models.Sum('quantity'))['total_items'] or 0
+        return (
+            self.items.aggregate(total_items=models.Sum("quantity"))["total_items"] or 0
+        )
 
     def get_discount(self):
         total_cost = self.get_total_cost_before_discount()
@@ -40,6 +48,7 @@ class Order(models.Model):
     def get_total_cost(self):
         total_cost = self.get_total_cost_before_discount()
         return total_cost - self.get_discount()
+
     def user_first_name(self):
         return self.user.first_name
 
@@ -51,13 +60,23 @@ class Order(models.Model):
 
     def user_address(self):
         # Assuming you have a related name 'profile' in User model
-        return self.user.profile.address if hasattr(self.user, 'profile') else ''
+        return self.user.profile.address if hasattr(self.user, "profile") else ""
 
     def user_postal_code(self):
-        return self.user.profile.postal_code if hasattr(self.user, 'profile') else ''
+        return self.user.profile.postal_code if hasattr(self.user, "profile") else ""
 
     def user_city(self):
-        return self.user.profile.city if hasattr(self.user, 'profile') else ''
+        return self.user.profile.city if hasattr(self.user, "profile") else ""
+
+    def get_total_cost_before_discount(self):
+        return sum(item.get_cost() for item in self.items.all())
+
+    def get_discount(self):
+        total_cost = self.get_total_cost_before_discount()
+        if self.discount:
+            return total_cost * (self.discount / Decimal(100))
+        return Decimal(0)
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)

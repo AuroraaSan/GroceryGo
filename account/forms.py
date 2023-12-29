@@ -180,6 +180,16 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["date_of_birth", "phone_number"]
+        widgets = {
+            "date_of_birth": forms.DateInput(
+                format=("%Y-%m-%d"),
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Select Date",
+                    "type": "date",
+                },
+            )
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)

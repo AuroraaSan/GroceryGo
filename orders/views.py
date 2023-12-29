@@ -29,7 +29,6 @@ def order_create(request):
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
-                order.save()
             order.user = request.user
             order.address = form.cleaned_data["user_address"]
             if cart.coupon:
@@ -91,6 +90,10 @@ def admin_order_pdf(request, order_id):
 def user_orders(request):
     user = request.user
     orders = Order.objects.filter(user=user)
-    return render(
-        request, "orders/order/user_orders.html", {"orders": orders, "user": user}
-    )
+    if not orders:
+        messages.info(request, "You have no orders.")
+        return redirect("shop:product_list")
+    else:
+        return render(
+            request, "orders/order/user_orders.html", {"orders": orders, "user": user}
+        )
