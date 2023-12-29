@@ -13,10 +13,6 @@ stripe.api_version = settings.STRIPE_API_VERSION
 def payment_process(request):
     order_id = request.session.get("order_id", None)
     order = get_object_or_404(Order, id=order_id)
-    if order_id:
-        order = get_object_or_404(Order, id=order_id)
-        order.paid = True
-        order.save()
     if request.method == "POST":
         success_url = request.build_absolute_uri(reverse("payment:completed"))
         cancel_url = request.build_absolute_uri(reverse("payment:canceled"))
@@ -59,7 +55,21 @@ def payment_process(request):
         return render(request, "payment/process.html", locals())
 
 
+def cash_on_delivery(request):
+    order_id = request.session.get("order_id", None)
+    order = get_object_or_404(Order, id=order_id)
+    if order_id:
+        order.paid = False
+        order.save()
+    return render(request, "payment/completed.html")
+
+
 def payment_completed(request):
+    order_id = request.session.get("order_id", None)
+    order = get_object_or_404(Order, id=order_id)
+    if order_id:
+        order.paid = True
+        order.save()
     return render(request, "payment/completed.html")
 
 

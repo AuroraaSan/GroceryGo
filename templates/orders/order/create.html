@@ -52,7 +52,7 @@
 
   <form method="post" class="order-form">
     {{ form|crispy }}
-    <p><input type="submit" value="Place order"></p>
+    <p><input class="btn btn-success" type="submit" value="Place order"></p>
     {% csrf_token %}
   </form>
 {% endblock %}

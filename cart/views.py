@@ -51,8 +51,24 @@ def cart_remove(request, p_id):
     user = request.user
     cart = CartWrapper(user)
     product = get_object_or_404(Product, p_id=p_id)
-    cart.remove(product)
-    product.stock += 1
+
+    # Check if the product is in the cart
+    if product in cart.cart:
+        quantity = cart.cart[product]["quantity"]
+        cart.remove(product)
+
+        # Add the removed quantity back to the product's stock
+        product.stock += quantity
+        product.save()
+
+        messages.success(
+            request, f"{product.product_name} removed from your cart successfully."
+        )
+    else:
+        messages.error(
+            request, f"{product.product_name} is not in your cart.", extra_tags="danger"
+        )
+
     return redirect("cart:cart_detail")
 
 

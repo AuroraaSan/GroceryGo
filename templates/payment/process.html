@@ -53,13 +53,19 @@
         <td>Total</td>
         <td colspan="3"></td>
         <td class="num">
-          EGP{{ cart.get_total_price|floatformat:2 }}
+          EGP{{ order.get_total_cost|floatformat:2 }}
         </td>
       </tr>
     </tbody>
   </table>
+
+  <form action="{% url 'payment:cash_on_delivery' %}" method="post">
+    <input class="btn btn-primary" type="submit" value="Pay on Delivery">
+    {% csrf_token %}
+  </form>
+
   <form action="{% url 'payment:process' %}" method="post">
-    <input type="submit" value="Pay now">
+    <input class="btn btn-primary" type="submit" value="Pay now">
     {% csrf_token %}
   </form>
 {% endblock %}

@@ -10,7 +10,7 @@ Add Address
 <h2>Add New Address</h2>
 <form method="post">
     {% csrf_token %}
-    {{ address_form.as_p }}
+    {{ address_form|crispy }}
     <button type="submit">Add Address</button>
 </form>
 <a href="{% url 'account' %}">Back to Profile</a>
