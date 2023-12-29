@@ -40,6 +40,20 @@ class Order(models.Model):
     def get_total_cost(self):
         total_cost = self.get_total_cost_before_discount()
         return total_cost - self.get_discount()
+    
+    def order_items(self):
+        items = list(OrderItem.objects.filter(order_id = self.id).values('product_id', 'quantity'))
+        order_products = []
+
+        for item in items:
+            product_id = item['product_id']
+            quantity = item['quantity']
+
+            product = Product.objects.get(p_id=product_id)
+            order_products.append({'product': product, 'quantity': quantity})
+        return order_products
+
+
     def user_first_name(self):
         return self.user.first_name
 
