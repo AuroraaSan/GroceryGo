@@ -10,19 +10,33 @@
         <th>Date Placed</th>
         <th>Total Price</th>
         <th>Number of Items</th>
-        
       </tr>
     </thead>
     <tbody>
-      {% for order in orders %}
-      <tr>
-        <td>{{ order.id }}</td>
+{% for order in orders %}
+    <tr>
+        <td>
+            <p class="d-inline-flex" style="margin-top: 12px">
+                <a class="btn btn-light search-button" type="button" data-bs-toggle="collapse" data-bs-target="#orderItems{{ order.id }}"  {# Use a unique identifier based on order.id #} aria-expanded="false" aria-controls="collapseExample">
+                  {{ order.id }}
+                </a>
+            </p>
+        </td>
         <td>{{ order.created }}</td>
         <td>EGP {{ order.get_total_cost_before_discount }}</td>
         <td>{{ order.get_total_items }}</td>
-    
-      </tr>
-      {% endfor %}
+    </tr>
+
+    <div class="collapse" id="orderItems{{ order.id }}">  {# Use a unique identifier based on order.id #}
+        <div class="card card-body">
+            <ul>
+                {% for item in order.order_items %}
+                    <li><img style="max-height: 100px;" src="{{item.product.p_image}}">{{item.quantity}} x {{item.product}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endfor %}
     </tbody>
   </table>
   {% else %}
