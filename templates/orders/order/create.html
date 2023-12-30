@@ -1,58 +1,52 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-
 {% block title %}
-  Checkout
+Checkout
 {% endblock %}
-
 {% block content %}
-  <h1>Checkout</h1>
-  <div class="order-info">
-    <h3>Your order</h3>
-    <div class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart %}
-        <tr>
-          <td>{{ item.product.product_name }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>EGP {{ item.price }}</td>
-          <td>EGP {{ item.total_price }}</td>
-        </tr>
-      {% endfor %}
-
-    </tbody>
-  </table>
-        </div>
-    <li>Total order before discount: EGP {{ cart.get_total_price|floatformat:2 }}</li>
-  </div>
-  <div>
-        {% if cart.coupon %}
-        <li>
-        "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
-        <span class="neg">- EGP{{ cart.get_discount|floatformat:2 }}</span>
-        </li>
-      {% endif %}
-      </div>
-
+<h1>Checkout</h1>
+<div class="order-info">
+   <h3>Your order</h3>
+   <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+         <thead>
+            <tr>
+               <th>Product</th>
+               <th>Quantity</th>
+               <th>Price</th>
+               <th>Total</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for item in cart %}
+            <tr>
+               <td>{{ item.product.product_name }}</td>
+               <td>{{ item.quantity }}</td>
+               <td>EGP {{ item.price }}</td>
+               <td>EGP {{ item.total_price }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
 </div>
-    <li>Total order: EGP {{ cart.get_total_price_after_discount|floatformat:2 }}</li>
-  </div>
-  <h4>First Name: {{user.first_name}}</h4>
-  <h4>Last Name:   {{user.last_name}}</h4>
-
-
-  <form method="post" class="order-form">
-    {{ form|crispy }}
-    <p><input class="btn btn-success" type="submit" value="Place order"></p>
-    {% csrf_token %}
-  </form>
+<div>
+   {% if cart.coupon %}
+    <li>Total order before discount: EGP {{ cart.get_total_price|floatformat:2 }}</li>
+   <li>
+      "{{ cart.coupon.code }}" ({{ cart.coupon.discount }}% off)
+      <span class="neg">- EGP{{ cart.get_discount|floatformat:2 }}</span>
+   </li>
+   {% endif %}
+</div>
+</div>
+<li>Total order: EGP {{ cart.get_total_price_after_discount|floatformat:2 }}</li>
+</div>
+<h4>First Name: {{user.first_name}}</h4>
+<h4>Last Name:   {{user.last_name}}</h4>
+<form method="post" class="order-form">
+   {{ form|crispy }}
+   <p><input class="btn btn-success" type="submit" value="Place order"></p>
+   {% csrf_token %}
+</form>
 {% endblock %}

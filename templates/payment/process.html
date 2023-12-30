@@ -59,7 +59,7 @@
     </tbody>
   </table>
 
-  <form action="{% url 'payment:cash_on_delivery' %}" method="post">
+  <form action="{% url 'payment:cod' %}" method="post">
     <input class="btn btn-primary" type="submit" value="Pay on Delivery">
     {% csrf_token %}
   </form>
