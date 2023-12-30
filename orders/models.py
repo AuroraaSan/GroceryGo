@@ -48,7 +48,6 @@ class Order(models.Model):
     def get_total_cost(self):
         total_cost = self.get_total_cost_before_discount()
         return total_cost - self.get_discount()
-
     def user_first_name(self):
         return self.user.first_name
 

@@ -255,10 +255,10 @@ class Product(models.Model):
     product_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     description = models.TextField(blank=True)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=7, decimal_places=2)
     stock = models.IntegerField(default=0)
-    discount = models.FloatField(
-        default=0.0, validators=[MaxValueValidator(100.0), MinValueValidator(0.0)]
+    discount = models.DecimalField(
+        max_digits=5, decimal_places=2, default=0.0, validators=[MaxValueValidator(100.0), MinValueValidator(0.0)]
     )
     manfacture_date = models.DateTimeField(default=timezone.now)
     expiry_date = models.DateTimeField(null=False, blank=False)
@@ -277,6 +277,11 @@ class Product(models.Model):
             models.Index(fields=["p_id", "slug"]),
             models.Index(fields=["product_name"]),
         ]
+
+    def check_expiry(self):
+        two_weeks_expiry = timezone.now() + timezone.timedelta(weeks=2)
+        if self.expiry_date <= two_weeks_expiry:
+            self.discount = 0.3
 
     def cal_discount(self):
         return self.price * (1 - self.discount)

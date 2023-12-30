@@ -1,5 +1,7 @@
-from .cart import Cart
+from .cart import CartWrapper
+from .models import CartItem
 
 
 def cart(request):
-    return {"cart": Cart(request)}
+    user_cart = CartWrapper(request.user)
+    return {"cart": user_cart}
