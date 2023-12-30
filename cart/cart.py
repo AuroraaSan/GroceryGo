@@ -58,9 +58,7 @@ class CartWrapper:
         Count all items in the cart.
         """
         return (
-            CartItem.objects.filter(cart=self.cart).aggregate(
-                total_quantity=models.Sum("quantity")
-            )["total_quantity"]
+            CartItem.objects.filter(cart=self.cart).count()
             or 0
         )
     
