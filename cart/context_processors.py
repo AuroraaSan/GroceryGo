@@ -1,7 +1,9 @@
 from .cart import CartWrapper
-from .models import CartItem
 
 
 def cart(request):
-    user_cart = CartWrapper(request.user)
-    return {"cart": user_cart}
+    if request.user.is_authenticated:
+        user_cart = CartWrapper(user=request.user)
+        return {'cart': user_cart}
+    else:
+        return {'cart': None}

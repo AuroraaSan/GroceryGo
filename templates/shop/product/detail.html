@@ -31,12 +31,13 @@
                 </form>
                 <br>
                 <br>
-                {% with product.total_users_purchased as total_users %}
-                    <p style="font-style: italic; font-weight: 400;">Total users who purchased: {{ total_users }}</p>
-                {% endwith %}
-
-                {% with product.users_purchased_last_24_hours as users_last_24_hours %}
-                    <p style="font-style: italic;">Users who purchased in the last 24 hours: {{ users_last_24_hours }}</p>
+                {% with user_counts=product.get_user_count %}
+                    <p style="font-style: italic; font-weight: 400;">
+                        Total users who purchased: {{ user_counts.total_users_purchased }}
+                    </p>
+                    <p style="font-style: italic;">
+                        Users who purchased in the last 24 hours: {{ user_counts.users_purchased_last_24_hours }}
+                    </p>
                 {% endwith %}
             </div>
         </div>
