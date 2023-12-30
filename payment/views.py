@@ -61,7 +61,7 @@ def cash_on_delivery(request):
     if order_id:
         order.paid = False
         order.save()
-    return render(request, "payment/completed.html")
+    return render(request, "payment/completed_cod.html")
 
 
 def payment_completed(request):

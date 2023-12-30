@@ -59,13 +59,16 @@
     </tbody>
   </table>
 
-  <form action="{% url 'payment:cod' %}" method="post">
-    <input class="btn btn-primary" type="submit" value="Pay on Delivery">
-    {% csrf_token %}
-  </form>
+  <div class="d-inline">
+    <form action="{% url 'payment:cod' %}" method="post" class="d-inline">
+      <input class="btn btn-primary" type="submit" value="Pay on Delivery">
+      {% csrf_token %}
+    </form>
 
-  <form action="{% url 'payment:process' %}" method="post">
-    <input class="btn btn-primary" type="submit" value="Pay now">
-    {% csrf_token %}
-  </form>
+    <form action="{% url 'payment:process' %}" method="post" class="d-inline">
+      <input class="btn btn-primary" type="submit" value="Pay now">
+      {% csrf_token %}
+    </form>
+  </div>
+
 {% endblock %}
