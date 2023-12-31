@@ -43,8 +43,8 @@ Your shopping cart
                {% csrf_token %}
                </form>
             </td>
-            <td class="num">EGP {{ item.price | floatformat }}</td>
-            <td class="num">EGP {{ item.total_price | floatformat }}</td>
+            <td class="num">EGP {{ item.price | floatformat:2 }}</td>
+            <td class="num">EGP {{ item.total_price | floatformat:2 }}</td>
          </tr>
          {% endwith %}
          {% endfor %}
