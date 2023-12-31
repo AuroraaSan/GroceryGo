@@ -1,46 +1,50 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 <div class="container">
   <h1>{{ user.username }}'s Orders</h1>
 
   {% if orders %}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Date Placed</th>
-        <th>Total Price</th>
-        <th>Number of Items</th>
-      </tr>
-    </thead>
-    <tbody>
-{% for order in orders %}
-    <tr>
-        <td>
-            <p class="d-inline-flex" style="margin-top: 12px">
-                <a class="btn btn-light search-button" type="button" data-bs-toggle="collapse" data-bs-target="#orderItems{{ order.id }}"  {# Use a unique identifier based on order.id #} aria-expanded="false" aria-controls="collapseExample">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Date Placed</th>
+          <th>Total Price</th>
+          <th>Number of Items</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td>
+              <p class="d-inline-flex" style="margin-top: 12px">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#orderItems{{ order.id }}" aria-expanded="false" aria-controls="#orderItems{{ order.id }}">
                   {{ order.id }}
-                </a>
-            </p>
-        </td>
-        <td>{{ order.created }}</td>
-        <td>EGP {{ order.get_total_cost_before_discount }}</td>
-        <td>{{ order.get_total_items }}</td>
-    </tr>
-
-    <div class="collapse" id="orderItems{{ order.id }}">  {# Use a unique identifier based on order.id #}
-        <div class="card card-body">
-            <ul>
-                {% for item in order.order_items %}
-                    <li><img style="max-height: 100px;" src="{{item.product.p_image}}">{{item.quantity}} x {{item.product}}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-{% endfor %}
-    </tbody>
-  </table>
+                </button>
+              </p>
+            </td>
+            <td>{{ order.created }}</td>
+            <td>EGP {{ order.get_total_cost_before_discount }}</td>
+            <td>{{ order.get_total_items }}</td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <div class="collapse" id="orderItems{{ order.id }}">
+                <div class="card card-body">
+                  <ul>
+                    {% for item in order.order_items %}
+                      <li><img style="max-height: 100px;" src="{{ item.product.p_image }}">{{ item.quantity }} x {{ item.product }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-  <p>No orders available for {{ user.username }}.</p>
+    <p>No orders available for {{ user.username }}.</p>
   {% endif %}
 </div>
 {% endblock %}
