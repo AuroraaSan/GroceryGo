@@ -20,7 +20,7 @@
                     </a>
                 </h2>
                 {% if product.discount %}
-                    <h3 class="price">EGP {{ product.cal_discount }} <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span></h3>
+                    <h3 class="price">EGP {{ product.discounted_price|floatformat:2 }} <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span></h3>
                 {% else %}
                     <h3 class="price">EGP {{ product.price }}</h3>
                 {% endif %}

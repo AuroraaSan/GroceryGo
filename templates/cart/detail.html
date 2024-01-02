@@ -2,6 +2,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
+{% load mathfilters %}
+
 Your shopping cart
 {% endblock %}
 {% block content %}
@@ -43,8 +45,14 @@ Your shopping cart
                {% csrf_token %}
                </form>
             </td>
-            <td class="num">EGP {{ item.price | floatformat:2 }}</td>
-            <td class="num">EGP {{ item.total_price | floatformat:2 }}</td>
+            <td class="num">
+               {% if product.discount %}
+                  EGP {{ product.discounted_price|floatformat:2 }}
+                  {% else %}
+                  EGP {{ item.price }}
+               {% endif %}
+            </td>
+            <td class="num">EGP {{ item.total_price | floatformat }}</td>
          </tr>
          {% endwith %}
          {% endfor %}
