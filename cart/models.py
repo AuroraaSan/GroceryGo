@@ -20,4 +20,9 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=0, blank=True)
 
     def total_price(self):
-        return self.quantity * self.product.price
+        print(self.product.discount)
+        if self.product.discount:
+            return self.quantity * self.product.discounted_price
+        else:
+            return self.quantity * self.product.price
+

@@ -1,45 +1,42 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-
-{% block title %}
-  Checkout
-{% endblock %}
-
-{% block content %}
-  <h1>Checkout</h1>
-  <div class="order-info">
-    <h3>Your order</h3>
-    <div class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart %}
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block title %}
+Checkout {% endblock %} {% block content %}
+<h1>Checkout</h1>
+<div class="order-info">
+  <h3>Your order</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart %}
         <tr>
           <td>{{ item.product.product_name }}</td>
           <td>{{ item.quantity }}</td>
-          <td>EGP {{ item.price }}</td>
+          <td>
+            {% if item.product.discount %} EGP
+            {{item.product.discounted_price|floatformat:2 }} {% else %} EGP
+            {{item.product.price}} {% endif %}
+          </td>
           <td>EGP {{ item.total_price }}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-    <p>Total order: EGP {{ cart.get_total_price }}</p>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-  <h4>First Name: {{user.first_name}}</h4>
-  <h4>Last Name:   {{user.last_name}}</h4>
+  <p>Total order: EGP {{ cart.get_total_price }}</p>
+</div>
+<h4>First Name: {{user.first_name}}</h4>
+<h4>Last Name: {{user.last_name}}</h4>
 
-
-  <form method="post" class="order-form">
-    {{ form|crispy }}
-    <p><input type="submit" value="Place order"></p>
-    {% csrf_token %}
-  </form>
+<form method="post" class="order-form">
+  {{ form|crispy }}
+  <p><input type="submit" value="Place order" /></p>
+  {% csrf_token %}
+</form>
 {% endblock %}

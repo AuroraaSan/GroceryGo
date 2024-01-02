@@ -44,7 +44,7 @@
                <div class="card-body">
                   <h5 class="card-title"><a href="{{ product.get_absolute_url }}" class="text-decoration-none text-black">{{ product.product_name }}</a></h5>
                   {% if product.discount %}
-                  <p class="card-text">EGP {{ product.cal_discount }}</p>
+                  <p class="card-text">EGP {{ product.discounted_price|floatformat:2 }}</p>
                   {% comment "Edit this discount" %}{% endcomment %}
                   <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span>
                   {% else %}

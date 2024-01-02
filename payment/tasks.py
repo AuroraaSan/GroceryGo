@@ -19,8 +19,9 @@ def payment_completed(order_id):
     message = 'Please, find attached the invoice for your recent purchase.'
     email = EmailMessage(subject,
                          message,
-                         'admin@myshop.com',
-                         [order.email])
+                         'djangooservice@gmail.com',
+                         [order.user_email],
+                         fail_silently=False)
     # generate PDF
     html = render_to_string('orders/order/pdf.html', {'order': order})
     out = BytesIO()
@@ -32,4 +33,4 @@ def payment_completed(order_id):
                  out.getvalue(),
                  'application/pdf')
     # send e-mail
-    email.send()
+    email.send_mail()
