@@ -3,6 +3,7 @@ import stripe
 from django.conf import settings
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from orders.models import Order
+from .tasks import payment_completed as payment_completed_task
 
 
 # create the Stripe instance
@@ -61,6 +62,8 @@ def cash_on_delivery(request):
     if order_id:
         order.paid = False
         order.save()
+        payment_completed_task(order_id)
+
     return render(request, "payment/completed_cod.html")
 
 
@@ -70,6 +73,8 @@ def payment_completed(request):
     if order_id:
         order.paid = True
         order.save()
+        payment_completed_task(order_id)
+
     return render(request, "payment/completed.html")
 
 
