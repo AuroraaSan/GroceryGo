@@ -45,7 +45,7 @@ class CartWrapper:
             cart_item_dict = {
                 "product": product,
                 "quantity": cart_item.quantity,
-                "price": product.price,
+                "price": product.discounted_price,
                 "total_price": cart_item.total_price(),
                 "update_quantity_form": CartAddProductForm(
                     initial={"quantity": cart_item.quantity, "override": True}
@@ -57,11 +57,8 @@ class CartWrapper:
         """
         Count all items in the cart.
         """
-        return (
-            CartItem.objects.filter(cart=self.cart).count()
-            or 0
-        )
-    
+        return CartItem.objects.filter(cart=self.cart).count() or 0
+
     def get_total_price(self):
         return sum(
             cart_item.total_price()

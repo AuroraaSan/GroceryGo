@@ -26,17 +26,53 @@ Checkout {% endblock %} {% block content %}
           <td>EGP {{ item.total_price }}</td>
         </tr>
         {% endfor %}
+        {% if cart.coupon %}
+            <tr class="subtotal">
+              <td>Subtotal</td>
+              <td colspan="2"></td>
+              <td class="num">EGP {{ cart.get_total_price|floatformat:2 }}</td>
+            </tr>
+            <tr>
+              <td>
+                "{{ cart.coupon.code }}" coupon
+                ({{ cart.coupon.discount }}% off)
+              </td>
+              <td colspan="2"></td>
+              <td class="num neg">
+                - EGP {{ cart.get_discount|floatformat:2 }}
+              </td>
+            </tr>
+          {% endif %}
+          <tr class="total">
+            <td>Total</td>
+            <td colspan="2"></td>
+            <td class="num">
+              EGP {{ cart.get_total_price_after_discount|floatformat:2 }}
+            </td>
+          </tr>
       </tbody>
     </table>
-  </div>
-  <p>Total order: EGP {{ cart.get_total_price }}</p>
+  </div>  
 </div>
-<h4>First Name: {{user.first_name}}</h4>
-<h4>Last Name: {{user.last_name}}</h4>
+    <div class="customer-info">
+        <h4 class="mb-3">Customer Information</h4>
 
-<form method="post" class="order-form">
-  {{ form|crispy }}
-  <p><input type="submit" value="Place order" /></p>
-  {% csrf_token %}
-</form>
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label for="first-name" class="form-label">First Name</label>
+                <p class="form-control-static">{{ user.first_name }}</p>
+            </div>
+            <div class="col-md-3">
+                <label for="last-name" class="form-label">Last Name</label>
+                <p class="form-control-static">{{ user.last_name }}</p>
+            </div>
+            <div class="col-md-6">
+              <form method="post" class="order-form">
+                {{ form|crispy }}
+                <p><input type="submit" value="Place order" /></p>
+                {% csrf_token %}
+              </form>
+            </div>
+        </div>
+
 {% endblock %}

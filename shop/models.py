@@ -10,7 +10,6 @@ from django.db.models.signals import post_save, post_delete
 from django.apps import apps
 
 
-
 # Create your models here.
 class Category(models.Model):
     cat_id = models.BigAutoField(primary_key=True)
@@ -289,21 +288,37 @@ class Product(models.Model):
         two_weeks_expiry = timezone.now() + timezone.timedelta(weeks=2)
         if self.expiry_date <= two_weeks_expiry:
             self.discount = 0.3
+            self.save()
+        else:
+            self.discount = 0.0
+            self.save()
 
     # def cal_discount(self):
     #     return self.price * (1 - self.discount)
 
     def get_user_count(self):
-        OrderItem = apps.get_model('orders', 'OrderItem')
-        self.total_users_purchased = OrderItem.objects.filter(product=self.p_id).values('order__user').distinct().count() or 0
-        self.users_purchased_last_24_hours = OrderItem.objects.filter(
-            product=self.p_id,
-            order__created__gte=timezone.now() - timezone.timedelta(minutes=1),
-        ).values('order__user').distinct().count() or 0
+        OrderItem = apps.get_model("orders", "OrderItem")
+        self.total_users_purchased = (
+            OrderItem.objects.filter(product=self.p_id)
+            .values("order__user")
+            .distinct()
+            .count()
+            or 0
+        )
+        self.users_purchased_last_24_hours = (
+            OrderItem.objects.filter(
+                product=self.p_id,
+                order__created__gte=timezone.now() - timezone.timedelta(minutes=1),
+            )
+            .values("order__user")
+            .distinct()
+            .count()
+            or 0
+        )
 
         return {
-            'total_users_purchased': self.total_users_purchased,
-            'users_purchased_last_24_hours': self.users_purchased_last_24_hours,
+            "total_users_purchased": self.total_users_purchased,
+            "users_purchased_last_24_hours": self.users_purchased_last_24_hours,
         }
 
     def get_absolute_url(self):

@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Payment successful{% endblock %}
+{% block title %}
+    Payment successful
+{% endblock %}
 
 {% block content %}
-  <h1>Your order has been placed successfully</h1>
-  <p>You have to pay on delivery.</p>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h1 class="display-4">Your order has been placed successfully</h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">You have to pay on delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -42,7 +42,7 @@ def order_create(request):
                     price=item["price"],
                     quantity=item["quantity"],
                 )
-            cart.clear()
+            #cart.clear()
             # set the order in the session
             request.session["order_id"] = order.id
             # redirect for payment

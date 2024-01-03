@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from shop.models import Product
+from .models import CartItem
 from .cart import CartWrapper
 from .forms import CartAddProductForm
 from django.contrib import messages
@@ -38,11 +39,10 @@ def cart_add(request, p_id):
         product.stock -= cd["quantity"]
 
         product.save()
-    messages.success(
-        request, f"{product.product_name} added to your cart successfully."
-    )
-
-    return redirect("shop:product_list")
+        messages.success(
+            request, f"{product.product_name} added to your cart successfully."
+        )
+    return redirect("cart:cart_detail")
 
 
 @login_required
@@ -51,23 +51,24 @@ def cart_remove(request, p_id):
     user = request.user
     cart = CartWrapper(user)
     product = get_object_or_404(Product, p_id=p_id)
+    cart_items = CartItem.objects.filter(cart=cart.cart)
+    for item in cart_items:
+        if product == item.product:
+            quantity = item.quantity
+            cart.remove(product)
 
-    # Check if the product is in the cart
-    if product in cart.cart:
-        quantity = cart.cart[product]["quantity"]
-        cart.remove(product)
+            # Add the removed quantity back to the product's stock
+            product.stock += quantity
+            product.save()
 
-        # Add the removed quantity back to the product's stock
-        product.stock += quantity
-        product.save()
+            messages.success(
+                request, f"{product.product_name} removed from your cart successfully."
+            )
+            return redirect("cart:cart_detail")
 
-        messages.success(
-            request, f"{product.product_name} removed from your cart successfully."
-        )
-    else:
-        messages.error(
-            request, f"{product.product_name} is not in your cart.", extra_tags="danger"
-        )
+    messages.error(
+        request, f"{product.product_name} is not in your cart.", extra_tags="danger"
+    )
 
     return redirect("cart:cart_detail")
 
