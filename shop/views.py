@@ -53,9 +53,9 @@ def product_list(request, category_name=None):
         for product in products:
             discounted_price = product.discounted_price
             if price_min <= discounted_price <= price_max:
-                filtered_products.append(product)
+                filtered_products.append(product.p_id)
 
-        products = filtered_products
+        products = products.filter(p_id__in=filtered_products)
         if company:
             company_id = company.company_id
             products = products.filter(company_id=company_id)
