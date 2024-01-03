@@ -9,8 +9,9 @@
         <tr>
           <th>Order ID</th>
           <th>Date Placed</th>
-          <th>Total Price</th>
           <th>Number of Items</th>
+          <th>Payment Status</th>
+          <th>Total Price</th>
         </tr>
       </thead>
       <tbody>
@@ -24,8 +25,13 @@
               </p>
             </td>
             <td>{{ order.created }}</td>
-            <td>EGP {{ order.get_total_cost_before_discount }}</td>
             <td>{{ order.get_total_items }}</td>
+            <td>
+              {% if order.paid %}Paid
+              {% else %} Cash on Delivery
+              {% endif %}
+            </td>
+            <td>EGP {{ order.get_total_cost }}</td>
           </tr>
           <tr>
             <td colspan="4">
