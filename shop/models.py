@@ -287,11 +287,12 @@ class Product(models.Model):
     def check_expiry(self):
         two_weeks_expiry = timezone.now() + timezone.timedelta(weeks=2)
         if self.expiry_date <= two_weeks_expiry:
-            self.update(discount=0.3)
+            self.discount = 0.3
         else:
-            self.update(discount=0)
+            self.discount = 0.0
         if self.expiry_date >= timezone.now():
-            self.update(stock=0)
+            self.stock = 0
+        self.save()
 
     # def cal_discount(self):
     #     return self.price * (1 - self.discount)

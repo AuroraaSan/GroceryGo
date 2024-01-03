@@ -71,7 +71,8 @@ def product_list(request, category_name=None):
     paginator = Paginator(products, 12)
     page_number = request.GET.get("page", 1)
 
-    Product().check_expiry()
+    for product in products:
+        product.check_expiry()
 
     try:
         products = paginator.page(page_number)
