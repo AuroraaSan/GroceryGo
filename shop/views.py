@@ -49,8 +49,13 @@ def product_list(request, category_name=None):
         if price_max is None:
             price_max = products.aggregate(Max("price"))["price__max"]
 
-        products = products.filter(price__range=(price_min, price_max))
+        filtered_products = []
+        for product in products:
+            discounted_price = product.discounted_price
+            if price_min <= discounted_price <= price_max:
+                filtered_products.append(product)
 
+        products = filtered_products
         if company:
             company_id = company.company_id
             products = products.filter(company_id=company_id)
