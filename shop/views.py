@@ -47,7 +47,7 @@ def product_list(request, category_name=None):
             price_min = 0
 
         if price_max is None:
-            price_max = products.aggregate(Max("price"))["price__max"]
+            price_max = 99999999999
 
         filtered_products = []
         for product in products:
