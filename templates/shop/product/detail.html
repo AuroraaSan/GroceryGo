@@ -22,7 +22,7 @@
                 {% if product.discount %}
                     <h3 class="price">EGP {{ product.discounted_price|floatformat:2 }} <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span></h3>
                 {% else %}
-                    <h3 class="price">EGP {{ product.price }}</h3>
+                    <h3 class="price">EGP {{ product.price|floatformat:2 }}</h3>
                 {% endif %}
                 <br>
                 <form action="{% url 'cart:cart_add' product.p_id %}" method="post">

@@ -21,9 +21,9 @@ Checkout {% endblock %} {% block content %}
           <td>
             {% if item.product.discount %} EGP
             {{item.product.discounted_price|floatformat:2 }} {% else %} EGP
-            {{item.product.price}} {% endif %}
+            {{item.product.price|floatformat:2}} {% endif %}
           </td>
-          <td>EGP {{ item.total_price }}</td>
+          <td>EGP {{ item.total_price|floatformat:2 }}</td>
         </tr>
         {% endfor %}
         {% if cart.coupon %}

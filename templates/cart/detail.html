@@ -52,7 +52,7 @@ Your shopping cart
                   EGP {{ item.price }}
                {% endif %}
             </td>
-            <td class="num">EGP {{ item.total_price | floatformat }}</td>
+            <td class="num">EGP {{ item.total_price | floatformat:2 }}</td>
          </tr>
          {% endwith %}
          {% endfor %}

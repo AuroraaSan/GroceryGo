@@ -32,7 +32,7 @@
             {% if item.product.discount %}
               EGP {{ item.product.discounted_price|floatformat:2 }}
             {% else %}
-              EGP {{ item.price }}
+              EGP {{ item.price|floatformat:2 }}
             {% endif %}
           </td>
           <td class="num">EGP {{ item.get_cost | floatformat:2 }}</td>

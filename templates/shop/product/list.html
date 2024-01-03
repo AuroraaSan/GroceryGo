@@ -48,7 +48,7 @@
                   {% comment "Edit this discount" %}{% endcomment %}
                   <span class="badge text-bg-secondary">{{ product.discount|mul:100 }}% Discount</span>
                   {% else %}
-                  <p class="card-text">EGP {{ product.price }}</p>
+                  <p class="card-text">EGP {{ product.price|floatformat:2 }}</p>
                   {% endif %}
                   {% if product.stock == 0 %}
                   <button type="submit" class="btn btn-danger" disabled >Out of Stock</button>
