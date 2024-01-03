@@ -71,8 +71,7 @@ def product_list(request, category_name=None):
     paginator = Paginator(products, 12)
     page_number = request.GET.get("page", 1)
 
-    for product in products:
-        product.check_expiry()
+    Product().check_expiry()
 
     try:
         products = paginator.page(page_number)
@@ -99,7 +98,6 @@ def product_list(request, category_name=None):
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product, p_id=id, slug=slug)
-    product.check_expiry()
     cart_product_form = CartAddProductForm()
     return render(
         request,
