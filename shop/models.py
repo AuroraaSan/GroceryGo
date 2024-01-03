@@ -308,7 +308,7 @@ class Product(models.Model):
         self.users_purchased_last_24_hours = (
             OrderItem.objects.filter(
                 product=self.p_id,
-                order__created__gte=timezone.now() - timezone.timedelta(minutes=1),
+                order__created__gte=timezone.now() - timezone.timedelta(hours=24),
             )
             .values("order__user")
             .distinct()
